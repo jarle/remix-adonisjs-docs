@@ -16,6 +16,14 @@ node ace configure @matstack/remix-adonisjs
 Make sure that the `vite_provider` is placed above the `remix_provider` in `adonisrc.ts`
 :::
 
+Add this to your `adonisrc.ts` file:
+``` typescript
+  assetsBundler: false,
+  unstable_assembler: {
+    onBuildStarting: [() => import('@matstack/remix-adonisjs/build_hook')],
+  },
+```
+
 Update your `tsconfig.json` compiler options to include these lines:
 ``` json
   "compilerOptions": {
