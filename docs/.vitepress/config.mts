@@ -7,7 +7,6 @@ export default defineConfig({
   sitemap: {
     hostname: 'https://matstack.dev/remix-adonisjs'
   },
-  base: '/remix-adonisjs/',
   lastUpdated: true,
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
