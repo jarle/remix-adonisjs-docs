@@ -171,6 +171,7 @@ export default function Page() {
 We can see the resulting compiled remix `server.js` code:
 ```js
 // build/remix/server/server.js
+import app from "@adonisjs/core/services/app";
 
 const route0 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
