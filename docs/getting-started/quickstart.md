@@ -11,6 +11,8 @@ Just jump into your new folder and start the dev server with `npm run dev`.
 
 The project follows the conventional AdonisJS structure, with the Remix application being placed in `resources/remix_app`.
 
+A good next step could be to follow our guide on how to build a [login flow](/hands-on/building-a-login-flow.md) for your new application.
+
 For implementation details/reference, refer to the official documentation for the two frameworks:
 - [Remix documentation](https://remix.run/docs/)
 - [AdonisJS documentation](https://docs.adonisjs.com/)

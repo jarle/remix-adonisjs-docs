@@ -1,4 +1,4 @@
-# Building a login flow
+# Building a login flow with remix-adonisjs
 
 Building an application often requires that you let users create accounts and log in.
 This guide will show you how to:
@@ -12,7 +12,7 @@ This guide will show you how to:
 
 ## Initial setup
 
-Let's start by initiating our project with:
+Let's start by initiating our project with the following commands:
 
 ```sh
 npm init adonisjs@latest -- -K="github:jarle/remix-starter-kit" building-a-login-page --auth-guard=access_tokens --db=sqlite login-page-tutorial
@@ -162,14 +162,13 @@ export default class AuthMiddleware {
 }
 ```
 
-We should also apply our migration, creating the user table.
-Migrations can be run with the command:
+We should also create the user table in our database by running our new migration file:
 ```sh
 node ace migration:run
 ```
 
 ::: info
-You can always re-generate your database if you want to tweak your tables or clear the contents.
+You can always re-generate your database if you want to clear it of any data.
 The command for clearing your database is:
 ```sh
 node ace migration:fresh
@@ -179,7 +178,6 @@ node ace migration:fresh
 ## Applying auth middleware
 
 Time to apply the middleware and protect our routes! 
-
 
 Update `#start/kernel.ts` and add the `auth_middleware`.
 This will run the authentication on every remix route.
@@ -466,9 +464,9 @@ Here are some challenges you could try implementing on your own in the meantime:
 - Error handling when registering duplicate users
 - Enforcing password security rules
 - Add a "remember me" option that keeps the user signed in when the session expires
-- Signing up with OAuth (Google etc)
-- Sending emails to users on Sign up
-- Implementing a password reset flow
+- Support signing up with OAuth (Google etc)
+- Automatically send welcome emails to users when they sign up
+- Implementing a password reset flow that the user can initiate
 
 ### Further reading
 
