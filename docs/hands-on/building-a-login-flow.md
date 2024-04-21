@@ -465,6 +465,7 @@ Here are some challenges you could try implementing on your own in the meantime:
 - Enforcing password security rules
 - Add a "remember me" option that keeps the user signed in when the session expires
 - Support signing up with OAuth (Google etc)
+- Detecting what page the user was trying to access, and redirect them back there after login
 - Automatically send welcome emails to users when they sign up
 - Implementing a password reset flow that the user can initiate
 
