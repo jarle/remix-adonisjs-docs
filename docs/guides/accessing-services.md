@@ -67,7 +67,7 @@ Then add these files to your `#providers` folder:
 
 ```typescript
 // #providers/service_provider.ts
-import { ServiceProviders } from '#services/service_providers.js'
+import { ServiceProviders } from '#services/service_providers'
 import { ApplicationService } from '@adonisjs/core/types'
 
 export default class ServiceProvider {
@@ -84,7 +84,7 @@ export default class ServiceProvider {
 
 ```typescript
 // #providers/service_types.d.ts
-import { ServiceProviders } from "#services/service_providers.js";
+import { ServiceProviders } from "#services/service_providers";
 
 
 type ProvidedServices = {
@@ -129,7 +129,7 @@ We can add a simple wrapper for getting our service from the container:
 ```typescript
 // #services/index.ts
 import app from '@adonisjs/core/services/app'
-import type UserService from './user_service.js'
+import type UserService from './user_service'
 
 let userService: UserService
 
