@@ -26,6 +26,13 @@ export default defineConfig({
           { text: 'Migrate an AdonisJS application', link: '/getting-started/add-to-existing-adonisjs-project' }
         ],
         collapsed: false
+      },
+      {
+        text: 'Guides',
+        items: [
+          { text: 'Accessing services from Remix', link: '/guides/accessing-services-safely' },
+        ],
+        collapsed: false
       }
     ],
 
