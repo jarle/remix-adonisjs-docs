@@ -96,7 +96,7 @@ declare module '@adonisjs/core/types' {
 }
 ```
 
-This should give you type safe access to your services from the container in your remix application!
+This should give you type safe access to your services from the container in your remix application.
 
 Here is an example of how it is now possible to access the `user_service` instance:
 
