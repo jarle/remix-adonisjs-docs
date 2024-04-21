@@ -28,12 +28,19 @@ export default defineConfig({
         collapsed: false
       },
       {
+        text: 'Hands-on guides',
+        items: [
+          { text: 'Building a login page', link: '/hands-on/building-a-login-flow' },
+        ],
+        collapsed: false
+      },
+      {
         text: 'Technical details',
         items: [
           { text: 'Accessing services from Remix', link: '/technical-details/accessing-services' },
         ],
         collapsed: false
-      }
+      },
     ],
 
     socialLinks: [
