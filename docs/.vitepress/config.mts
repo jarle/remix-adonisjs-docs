@@ -28,9 +28,9 @@ export default defineConfig({
         collapsed: false
       },
       {
-        text: 'Guides',
+        text: 'Technical details',
         items: [
-          { text: 'Accessing services from Remix', link: '/guides/accessing-services' },
+          { text: 'Accessing services from Remix', link: '/technical-details/accessing-services' },
         ],
         collapsed: false
       }
