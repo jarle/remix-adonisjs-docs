@@ -30,7 +30,7 @@ export default defineConfig({
       {
         text: 'Guides',
         items: [
-          { text: 'Accessing services from Remix', link: '/guides/accessing-services-safely' },
+          { text: 'Accessing services from Remix', link: '/guides/accessing-services' },
         ],
         collapsed: false
       }
