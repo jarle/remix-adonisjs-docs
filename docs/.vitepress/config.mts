@@ -31,6 +31,7 @@ export default defineConfig({
         text: 'Hands-on guides',
         items: [
           { text: 'Building a login flow', link: '/hands-on/building-a-login-flow' },
+          { text: 'Build an AI chat app', link: '/hands-on/build-an-ai-chat-app' },
         ],
         collapsed: false
       },
