@@ -2,6 +2,10 @@
 
 In this guide we are going to build a very simple ChatGPT-clone that we can chat with.
 
+Here is a screenshot of what we will build in this guide:
+
+![AI chat app screenshot](../img/ai-chat-app.png)
+
 ## Initial setup
 
 First initialize a new remix-adonisjs project:
