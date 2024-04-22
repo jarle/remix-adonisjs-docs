@@ -31,8 +31,13 @@ Add a new environment variable to `#start/env.ts`
 OPENAI_API_KEY: Env.schema.string(),
 ```
 
+Head over to https://platform.openai.com/api-keys and create a new secret key to use their APIs.
+This might requiring adding a payment method as their APIs are not available for free.
 
-Head over to https://platform.openai.com/api-keys and create a new secret key
+Put your new API key in the `.env` file in the root of your directory like this:
+```
+OPENAI_API_KEY=<your key>
+```
 
 Install the openai node library:
 ```
@@ -221,3 +226,18 @@ If you look away from this logic, the loop is very simple:
 1. Get the assistant response from OpenAI and add it to the `history` variable
 1. Return from the action, which will make Remix call the loader and display the updated history. Since we are already displaying the user message, the new assistant message is the only thing that changes on the page.
 1. The loops starts again once the user submits a new message
+
+
+## Conclusion
+
+We have made a very simple AI service that can easily be extended.
+Here are some suggestions for what to do next:
+
+- Store chat messages in a database
+- Stream chat responses
+
+## Further reading
+
+- [Remix Single: Clearing Inputs After Form Submissions](https://www.youtube.com/watch?v=bMLej7bg5Zo)
+- [Remix Single: Optimistic UI](https://www.youtube.com/watch?v=EdB_nj01C80)
+- [Documentation for the OpenAI Node.js library](https://github.com/openai/openai-node#readme)
