@@ -15,7 +15,7 @@ This guide will show you how to:
 Let's start by initiating our project with the following commands:
 
 ```sh
-npm init adonisjs@latest -- -K="github:jarle/remix-starter-kit" building-a-login-page --auth-guard=access_tokens --db=sqlite login-page-tutorial
+npm init adonisjs@latest -- -K="github:jarle/remix-starter-kit" --auth-guard=access_tokens --db=sqlite login-page-tutorial
 node ace configure @adonisjs/lucid
 ```
 
