@@ -2,7 +2,7 @@
 
 In this guide we are going to build a very simple ChatGPT-clone that we can chat with.
 
-Here is a screenshot of what we will build in this guide:
+Here is a screenshot of what we will build:
 
 ![AI chat app screenshot](../img/ai-chat-app.png)
 
