@@ -32,7 +32,7 @@ OPENAI_API_KEY: Env.schema.string(),
 ```
 
 Head over to https://platform.openai.com/api-keys and create a new secret key to use their APIs.
-This might requiring adding a payment method as their APIs are not available for free.
+This might require adding a payment method as their APIs are not available for free.
 
 Put your new API key in the `.env` file in the root of your directory like this:
 ```
