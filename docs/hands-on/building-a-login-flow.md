@@ -183,9 +183,6 @@ Update `#start/routes.ts` and add the `auth_middleware` to the remix route handl
 This will run the authentication on every remix route.
 
 ```ts
-import router from '@adonisjs/core/services/router'
-import { middleware } from './kernel.js'
-
 router
   .any('*', async ({ remixHandler }) => {
     return remixHandler()
