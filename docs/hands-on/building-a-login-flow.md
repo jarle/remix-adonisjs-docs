@@ -16,6 +16,7 @@ Let's start by initiating our project with the following commands:
 
 ```sh
 npm init adonisjs@latest -- -K="github:jarle/remix-starter-kit" --auth-guard=access_tokens --db=sqlite login-page-tutorial
+cd login-page-tutorial
 node ace configure @adonisjs/lucid
 ```
 
@@ -311,6 +312,7 @@ The proper way to do that is to add the service to the application container.
 Update the `#services/service_providers.ts` file to create a new instance of our service:
 
 ```ts
+// #services/service_providers.ts
 import HelloService from './hello_service.js'
 import UserService from './user_service.js'
 
@@ -326,6 +328,7 @@ Now we have one instance of the `UserService` that can be accessed anywhere in o
 Let's use the service in our `/register` route `action` function:
 
 ```ts
+// /resources/remix_app/routes/register.tsx
 export const action = async ({ context }: ActionFunctionArgs) => {
   const { http, make } = context
   // get email and password from form data
@@ -431,6 +434,7 @@ We are redirected to the login page after logging out, but we haven't finished t
 Let's add the following action to the login page:
 
 ```tsx
+// resources/remix_app/routes/login
 import { ActionFunctionArgs, redirect } from '@remix-run/node'
 
 export const action = async ({ context }: ActionFunctionArgs) => {
