@@ -212,21 +212,23 @@ Replace your `Page()` function with this code and leave everything else in the f
 export default function Page() {
   return (
     <div className="container">
-      <h1>Log in</h1>
-      <Form method="post">
-        <label>
-          Email
-          <input type="email" name="email" />
-        </label>
-        <label>
-          Password
-          <input type="password" name="password" />
-        </label>
-        <button type="submit">Login</button>
-        <p>
-          Don't have an account yet? <Link to={'/register'}>Click here to sign up</Link>
-        </p>
-      </Form>
+      <article>
+        <h1>Log in</h1>
+        <Form method="post">
+          <label>
+            Email
+            <input type="email" name="email" />
+          </label>
+          <label>
+            Password
+            <input type="password" name="password" />
+          </label>
+          <button type="submit">Login</button>
+          <p>
+            Don't have an account yet? <Link to={'/register'}>Click here to sign up</Link>
+          </p>
+        </Form>
+      </article>
     </div>
   )
 }
@@ -248,17 +250,19 @@ export default function Page() {
   return (
     <div className="container">
       <h1>Register</h1>
-      <Form method="post">
-        <label>
-          Email
-          <input type="email" name="email" />
-        </label>
-        <label>
-          Password
-          <input type="password" name="password" />
-        </label>
-        <button type="submit">Register</button>
-      </Form>
+      <article>
+        <Form method="post">
+          <label>
+            Email
+            <input type="email" name="email" />
+          </label>
+          <label>
+            Password
+            <input type="password" name="password" />
+          </label>
+          <button type="submit">Register</button>
+        </Form>
+      </article>
     </div>
   )
 }
