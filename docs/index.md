@@ -4,7 +4,7 @@ layout: home
 
 hero:
   name: "remix-adonisjs"
-  text: "Better Web Apps in record time"
+  text: "Better Web Apps in Record Time"
   tagline: "remix-adonisjs is a Node.js meta-framework that combines Remix and AdonisJS for a best-in-class application stack"
   actions:
     - theme: brand
