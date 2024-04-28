@@ -3,6 +3,7 @@
 ## What is remix-adonisjs?
 
 This is a batteries-included meta-framework for building typesafe full-stack applications with Remix and AdonisJS on node.js.
+It is maintained by [Jarle Mathiesen](https://mathiesen.dev)
 
 ## How does it work?
 It works by embedding your Remix application into your AdonisJS web server, supercharging your Remix loaders and actions.

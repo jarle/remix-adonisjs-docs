@@ -179,7 +179,7 @@ node ace migration:fresh
 
 Time to apply the middleware and protect our routes! 
 
-Update `#start/kernel.ts` and add the `auth_middleware`.
+Update `#start/routes.ts` and add the `auth_middleware` to the remix route handler.
 This will run the authentication on every remix route.
 
 ```ts
