@@ -36,6 +36,13 @@ export default defineConfig({
         collapsed: false
       },
       {
+        text: 'Recipes',
+        items: [
+          { text: 'Validate intent in action functions', link: '/recipes/validate-action-intent' },
+        ],
+        collapsed: false
+      },
+      {
         text: 'Technical details',
         items: [
           { text: 'Accessing services from Remix', link: '/technical-details/accessing-services' },
