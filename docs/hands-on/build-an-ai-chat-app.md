@@ -95,16 +95,13 @@ export default class OpenAIService {
 }
 ```
 
-Instantiate the service inside `service_providers.ts`:
+Instantiate the service inside `#services/_index.ts`:
 ```ts
-import HelloService from '#services/hello_service'
-import OpenAIService from './openai_service.js'
-
 // Register services that should be available in the container here
 export const ServiceProviders = {
-  hello_service: () => new HelloService(),
-  openai: () => new OpenAIService(),
-} as const
+  hello_service: () => import('./hello_service.js'),
+  openai: () => import('./openai_service.js'),
+} satisfies Record<string, LazyService>
 ```
 
 ::: warning

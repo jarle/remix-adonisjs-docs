@@ -48,13 +48,10 @@ node ace make:service service_providers
 Modify the new service file to include your services:
 
 ```typescript
-// #services/service_providers.ts
-import UserService from '#services/user_service'
-
 // Register services that should be available in the container here
 export const ServiceProviders = {
-  user_service: () => new UserService(),
-} as const
+  user_service: () => import('#services/user_service'),
+} satisfies Record<string, LazyService>
 ```
 
 
@@ -75,7 +72,10 @@ export default class ServiceProvider {
 
   register() {
     Object.entries(ServiceProviders).forEach(([key, creator]) => {
-      this.app.container.singleton(key as any, creator)
+      this.app.container.singleton(key as any, async (resolver) => {
+        const constructor = await creator()
+        return resolver.make(constructor.default)
+      })
     })
   }
 }
@@ -84,16 +84,18 @@ export default class ServiceProvider {
 
 ```typescript
 // #providers/service_types.d.ts
-import { ServiceProviders } from "#services/service_providers";
-
+import { ServiceProviders } from "#services/_index";
 
 type ProvidedServices = {
-  [K in keyof typeof ServiceProviders]: ReturnType<(typeof ServiceProviders)[K]>
+  [K in keyof typeof ServiceProviders]: InstanceType<
+    Awaited<ReturnType<(typeof ServiceProviders)[K]>>['default']
+  >
 }
 
 declare module '@adonisjs/core/types' {
   export interface ContainerBindings extends ProvidedServices {}
 }
+
 ```
 
 This should give you type safe access to your services from the container in your remix application.

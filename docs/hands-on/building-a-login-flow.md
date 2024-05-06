@@ -309,18 +309,14 @@ export default class UserService {
 Now we need to make the service available to our `/register` route.
 The proper way to do that is to add the service to the application container.
 
-Update the `#services/service_providers.ts` file to create a new instance of our service:
+Update the `#services/_index.ts` file to create a new instance of our service:
 
 ```ts
-// #services/service_providers.ts
-import HelloService from './hello_service.js'
-import UserService from './user_service.js'
-
 // Register services that should be available in the container here
 export const ServiceProviders = {
-  hello_service: () => new HelloService(),
-  user_service: () => new UserService(),
-} as const
+  hello_service: () => import('./hello_service.js'),
+  user_service: () => import( './user_service.js'),
+} satisfies Record<string, LazyService>
 ```
 
 Now we have one instance of the `UserService` that can be accessed anywhere in our app.
