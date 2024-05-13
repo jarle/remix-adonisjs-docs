@@ -32,8 +32,8 @@ export const action = async ({ context }: ActionFunctionArgs) => {
 }
 ```
 
-
-This doesn't provide much type safety or validation of the incoming payload, leading to a lot of manual checking and potential bugs.
+This works, but doesn't provide much type safety or validation of the incoming payload.
+Let's add some more type safety to our application using VineJS!
 
 ### Using VineJS for request validation
 
@@ -155,16 +155,12 @@ export function intentValidation<T extends ValidationObject>(
 With this helper we can rewrite our search action validator like so:
 
 ```ts
-const actionValidation = intentValidation([
-  {
-    intent: 'search', validation: {
-      searchQuery: vine.string().trim().minLength(1),
-    }
+const actionValidation = intentValidation({
+  search: {
+    searchQuery: vine.string().trim().minLength(1),
   },
-  {
-    intent: 'add', validation: {
-      guid: vine.string().trim().minLength(1),
-    }
+  add: {
+    guid: vine.string().trim().minLength(1),
   },
-])
+})
 ```
