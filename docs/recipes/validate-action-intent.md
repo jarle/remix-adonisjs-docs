@@ -108,36 +108,47 @@ Luckily this is a repeating pattern when we have a standard `intent` field.
 Here is a helper function that could be useful if you want to use this pattern:
 ```ts
 // resources/remix_app/utils/intent_validation.ts
-import vine from '@vinejs/vine';
-import { SchemaTypes } from '@vinejs/vine/types';
+import vine, { VineLiteral } from '@vinejs/vine'
+import type { SchemaTypes } from '@vinejs/vine/types'
 
-interface IntentValidationPair<Intent extends string> {
-  intent: Intent;
-  validation: Record<string, SchemaTypes>;
+type FieldValidation = Record<string, SchemaTypes>
+type ValidationObject = Record<string, FieldValidation>
+
+type ConstrainedObject<T extends FieldValidation> = {
+  [Key in keyof T]: T[Key]
 }
 
-export function intentValidation<T extends string>(pairs: IntentValidationPair<T>[]) {
-  type IntentType = typeof pairs[number]['intent'];
+type ConstrainedValidation<T extends ValidationObject> = {
+  [Key in keyof T]: ConstrainedObject<T[Key]>
+}
 
-  const intents: IntentType[] = pairs.map(pair => pair.intent);
-  const intentValidations = pairs.map(pair =>
-    vine.group.if(
-      (value: Record<string, unknown>) => {
-        return 'intent' in value && (value as { intent: IntentType }).intent === pair.intent;
-      },
-      pair.validation
-    )
-  );
+export function intentValidation<T extends ValidationObject>(
+  validations2: ConstrainedValidation<T>
+) {
+  type ValidationWithIntent = {
+    [Key in keyof T]: ConstrainedObject<T[Key]> & { intent: VineLiteral<Key> }
+  }
+  const validations = validations2 as ValidationWithIntent
+  Object.keys(validations).forEach((key) => {
+    validations[key].intent = vine.literal(key)
+  })
 
-  const intentGroup = vine.group(intentValidations);
+  const validationGroup = vine.group(
+    (
+      Object.entries(validations) as [
+        keyof ValidationWithIntent,
+        ValidationWithIntent[keyof ValidationWithIntent],
+      ][]
+    ).map(([key, entry]) => vine.group.if((data) => data.intent === key, entry))
+  )
 
-  const actionValidation = vine.compile(
-    vine.object({
-      intent: vine.enum(intents),
-    }).merge(intentGroup)
-  );
-
-  return actionValidation;
+  return vine.compile(
+    vine
+      .object({
+        intent: vine.enum(Object.keys(validations)),
+      })
+      .merge(validationGroup)
+  )
 }
 ```
 
