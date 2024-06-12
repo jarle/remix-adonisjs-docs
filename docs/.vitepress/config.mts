@@ -23,7 +23,8 @@ export default defineConfig({
         items: [
           { text: 'Quickstart', link: '/getting-started/quickstart' },
           { text: 'Migrate a Remix application', link: '/getting-started/migrate-from-remix' },
-          { text: 'Migrate an AdonisJS application', link: '/getting-started/add-to-existing-adonisjs-project' }
+          { text: 'Migrate an AdonisJS application', link: '/getting-started/add-to-existing-adonisjs-project' },
+          { text: 'Examples', link: '/getting-started/examples' }
         ],
         collapsed: false
       },
