@@ -324,7 +324,7 @@ Now we have one instance of the `UserService` that can be accessed anywhere in o
 Let's use the service in our `/register` route `action` function:
 
 ```ts
-// /resources/remix_app/routes/register.tsx
+// resources/remix_app/routes/register.tsx
 export const action = async ({ context }: ActionFunctionArgs) => {
   const { http, make } = context
   // get email and password from form data

@@ -19,7 +19,7 @@ Make sure that the `vite_provider` is placed above the `remix_provider` in `adon
 Add this to your `adonisrc.ts` file:
 ``` typescript
   assetsBundler: false,
-  unstable_assembler: {
+  hooks: {
     onBuildStarting: [() => import('@matstack/remix-adonisjs/build_hook')],
   },
 ```
