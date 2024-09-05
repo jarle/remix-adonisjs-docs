@@ -8,7 +8,7 @@ export default defineConfig({
     hostname: 'https://matstack.dev/remix-adonisjs'
   },
   base: '/remix-adonisjs/',
-  cleanUrls: true,
+  cleanUrls: false,
   lastUpdated: true,
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
