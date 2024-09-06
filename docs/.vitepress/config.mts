@@ -4,9 +4,7 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   title: "remix-adonisjs",
   description: "Documentation for @matstack/remix-adonisjs",
-  sitemap: {
-    hostname: 'https://remix-adonisjs.matstack.dev/'
-  },
+  base: '/remix-adonisjs2/',
   lastUpdated: true,
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
