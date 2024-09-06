@@ -5,7 +5,7 @@ export default defineConfig({
   title: "remix-adonisjs",
   description: "Documentation for @matstack/remix-adonisjs",
   sitemap: {
-    hostname: 'https://remix-adonisjs.matstack.dev/remix-adonisjs/'
+    hostname: 'https://matstack.dev/remix-adonisjs/'
   },
   base: '/remix-adonisjs/',
   cleanUrls: true,
