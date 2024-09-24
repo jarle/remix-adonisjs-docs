@@ -8,6 +8,7 @@ export default defineConfig({
     hostname: 'https://matstack.dev/remix-adonisjs/'
   },
   base: '/remix-adonisjs/',
+  head: [['link', { rel: 'icon', href: '/remix-adonisjs/favicon.png' }]],
   cleanUrls: true,
   lastUpdated: true,
   themeConfig: {
