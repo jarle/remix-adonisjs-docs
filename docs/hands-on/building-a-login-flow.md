@@ -20,6 +20,8 @@ cd login-page-tutorial
 node ace configure @adonisjs/lucid
 ```
 
+Select `sqlite` from the menu, and press `y` to install dependencies using npm.
+
 Before we do anything else, let's add some css to `resources/remix_app/root.tsx` so our application looks nice.
 Add this snippet anywhere in the `<head>` tag of your `root.tsx` component:
 
@@ -82,7 +84,7 @@ export default class extends BaseSchema {
 
 A user model that we use to interact with the table:
 ```ts
-// #models/User.ts
+// #app/models/User.ts
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
   passwordColumnName: 'password',
@@ -112,7 +114,7 @@ export default class User extends compose(BaseModel, AuthFinder) {
 
 A middleware that authenticate incoming requests for the endpoints we specify:
 ```tsx
-// #middleware/auth_middleware.ts
+// #app/middleware/auth_middleware.ts
 export default class AuthMiddleware {
   redirectTo = '/login'
 
@@ -184,6 +186,7 @@ Update `#start/routes.ts` and add the `auth_middleware` to the remix route handl
 This will run the authentication on every remix route.
 
 ```ts
+import {middleware} from '#start/kernel'
 router
   .any('*', async ({ remixHandler }) => {
     return remixHandler()
@@ -207,8 +210,8 @@ node ace remix:route --action --error-boundary login
 
 ## Building the auth pages
 
-Let's create a login form to get started with our routes.
-Replace your `Page()` function with this code and leave everything else in the file as-is for now:
+Let's create a login form in `#resources/remix_app/routes/login.tsx` to get started with our routes.
+Replace your `Page()` function with this code then add `Link` and `Form` to the `import {...} from '@remix-run/react'` list but leave everything else in the file as-is for now:
 ```tsx
 export default function Page() {
   return (
@@ -244,7 +247,7 @@ node ace remix:route --action --error-boundary register
 ```
 
 
-Add this simple form to the `Page()` function:
+Add this simple form by replacing the `Page()` function in `#resources/remix_app/routes/login.tsx` and adding `Form` to the import line as above:
 
 ```tsx
 export default function Page() {
@@ -282,7 +285,7 @@ To keep things tidy, we create a new service for handling users.
 node ace make:service user_service
 ```
 
-Add this code to the service:
+Add this code to the service (`app/services/user_service.ts`):
 ```ts
 import User from '#models/user';
 import hash from '@adonisjs/core/services/hash';
@@ -321,10 +324,14 @@ export const ServiceProviders = {
 
 Now we have one instance of the `UserService` that can be accessed anywhere in our app.
 
-Let's use the service in our `/register` route `action` function:
+Let's use the service in our `/register` route by replacing the `action` function and adding `redirect` to the import line as we did with `Form`:
 
 ```ts
 // resources/remix_app/routes/register.tsx
+import { redirect, Form, useActionData, useLoaderData, isRouteErrorResponse, useRouteError } from '@remix-run/react'
+
+// ...
+
 export const action = async ({ context }: ActionFunctionArgs) => {
   const { http, make } = context
   // get email and password from form data
@@ -364,7 +371,7 @@ export const loader = async ({ context }: LoaderFunctionArgs) => {
 }
 ```
 
-And update the `Index.tsx` components to display the email:
+And update the `_index.tsx` components to display the email by replacing the default Index():
 ```tsx
 // resources/remix_app/routes/_index.tsx
 export default function Index() {
@@ -387,10 +394,15 @@ We have some momentum now, so let's keep going.
 A natural next step is to be able to log out.
 Let's add support for that to our index page:
 
-Add an action to your index route to make it possible to log out:
+Add an action to your index route to make it possible to log out, adding `type ActionFunctionArgs` and `redirect` to the relevent import lists:
 
 ```tsx
 // resources/remix_app/routes/_index.tsx
+import { json, type ActionFunctionArgs, type LoaderFunctionArgs, type MetaFunction } from '@remix-run/node'
+import { useLoaderData, redirect  } from '@remix-run/react'
+
+// ...
+
 export const action = async ({ context }: ActionFunctionArgs) => {
   const { http } = context
   const { intent } = http.request.only(['intent'])
@@ -403,10 +415,14 @@ export const action = async ({ context }: ActionFunctionArgs) => {
 }
 ```
 
-And add a button that triggers the action:
+And add a button that triggers the action, remembering to add `Form` to the import list:
 
 ```tsx
 // resources/remix_app/routes/_index.tsx
+import { useLoaderData, redirect, Form  } from '@remix-run/react'
+
+// ...
+
 export default function Index() {
   const { email } = useLoaderData<typeof loader>()
 
@@ -427,11 +443,13 @@ We are redirected to the login page after logging out, but we haven't finished t
 
 ## Logging in
 
-Let's add the following action to the login page:
+Let's add the following action to the login page, and add redirect to our imports:
 
 ```tsx
 // resources/remix_app/routes/login
-import { ActionFunctionArgs, redirect } from '@remix-run/node'
+import { Link, Form, redirect, useActionData, useLoaderData, isRouteErrorResponse, useRouteError } from '@remix-run/react'
+
+// ...
 
 export const action = async ({ context }: ActionFunctionArgs) => {
   const { http, make } = context
