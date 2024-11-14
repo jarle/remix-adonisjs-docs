@@ -48,6 +48,7 @@ export default defineConfig({
           { text: 'Using services in Remix', link: '/recipes/provide-services' },
           { text: 'Validate intent in action functions', link: '/recipes/validate-action-intent' },
           { text: 'Adding CSRF protection', link: '/recipes/csrf-protection' },
+          { text: 'Deploying your application', link: '/recipes/deployment' },
         ],
         collapsed: false
       },
