@@ -1,6 +1,6 @@
 # Cross-Site Request Forgery (CSRF) Protection
 
-First enable [https://docs.adonisjs.com/guides/security/securing-ssr-applications#csrf-protection](CSRF) in shield.
+First enable [CSRF](https://docs.adonisjs.com/guides/security/securing-ssr-applications#csrf-protection) in `@adonisjs/shield`.
 
 ## Method 1: Include X-XSRF-TOKEN in requests
 
