@@ -211,7 +211,7 @@ node ace remix:route --action --error-boundary login
 ## Building the auth pages
 
 Let's create a login form in `#resources/remix_app/routes/login.tsx` to get started with our routes.
-Replace your `Page()` function with this code then add `Link` and `Form` to the `import {...} from '@remix-run/react'` list but leave everything else in the file as-is for now:
+Replace your `Page()` function with this code then add `Link` and `Form` to the `import {...} from 'react-router'` list but leave everything else in the file as-is for now:
 ```tsx
 export default function Page() {
   return (
@@ -328,7 +328,7 @@ Let's use the service in our `/register` route by replacing the `action` functio
 
 ```ts
 // resources/remix_app/routes/register.tsx
-import { redirect, Form, useActionData, useLoaderData, isRouteErrorResponse, useRouteError } from '@remix-run/react'
+import { redirect, Form, useActionData, useLoaderData, isRouteErrorResponse, useRouteError } from 'react-router'
 
 // ...
 
@@ -365,9 +365,9 @@ Let's update `_index.tsx` to have this loader, where we get the email of the cur
 export const loader = async ({ context }: LoaderFunctionArgs) => {
   const email = context.http.auth.user?.email
 
-  return json({
+  return {
     email,
-  })
+  }
 }
 ```
 
@@ -398,8 +398,8 @@ Add an action to your index route to make it possible to log out, adding `type A
 
 ```tsx
 // resources/remix_app/routes/_index.tsx
-import { json, type ActionFunctionArgs, type LoaderFunctionArgs, type MetaFunction } from '@remix-run/node'
-import { useLoaderData, redirect  } from '@remix-run/react'
+import { json, type ActionFunctionArgs, type LoaderFunctionArgs, type MetaFunction } from 'react-router'
+import { useLoaderData, redirect } from 'react-router'
 
 // ...
 
@@ -409,7 +409,7 @@ export const action = async ({ context }: ActionFunctionArgs) => {
 
   if (intent === 'log_out') {
     await http.auth.use('web').logout()
-    return redirect('/login')
+    throw redirect('/login')
   }
   return null
 }
@@ -419,7 +419,7 @@ And add a button that triggers the action, remembering to add `Form` to the impo
 
 ```tsx
 // resources/remix_app/routes/_index.tsx
-import { useLoaderData, redirect, Form  } from '@remix-run/react'
+import { useLoaderData, redirect, Form  } from 'react-router'
 
 // ...
 
@@ -447,7 +447,7 @@ Let's add the following action to the login page, and add redirect to our import
 
 ```tsx
 // resources/remix_app/routes/login
-import { Link, Form, redirect, useActionData, useLoaderData, isRouteErrorResponse, useRouteError } from '@remix-run/react'
+import { Link, Form, redirect, useActionData, useLoaderData, isRouteErrorResponse, useRouteError } from 'react-router'
 
 // ...
 
