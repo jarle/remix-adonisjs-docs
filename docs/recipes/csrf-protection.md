@@ -48,7 +48,7 @@ export const useFetchWithXSRF = (): void => {
 
 ```
 
-Now CSRF should be enabled for POST requests.
+Use this hook somewhere in your `root.tsx` component and CSRF should be enabled for all POST requests.
 
 If you need to exclude some endpoints (for example API), see the [AdonisJS docs for exceptRoutes.](https://docs.adonisjs.com/guides/security/securing-ssr-applications#config-reference)
 
