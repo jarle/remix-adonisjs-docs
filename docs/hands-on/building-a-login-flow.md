@@ -135,19 +135,13 @@ export default class AuthMiddleware {
 Here `redirectTo` is the route that the user will be sent to if they are not logged in when accessing a protected route.
 
 We need to modify this middleware so it doesn't do any checks for the `/login` page, by defining some open routes and skipping the check for those routes:
-```ts
-if (this.openRoutes.includes(ctx.request.parsedUrl.pathname ?? '')) {
-  return next()
-}
-```
 
-The middleware file should look like this:
 ```ts
 // #middleware/auth_middleware.ts
 export default class AuthMiddleware {
   redirectTo = '/login'
 
-  openRoutes = [this.redirectTo, '/register']
+  openRoutes = [this.redirectTo, '/register', "__manifest"]
 
   async handle(
     ctx: HttpContext,
@@ -156,7 +150,7 @@ export default class AuthMiddleware {
       guards?: (keyof Authenticators)[]
     } = {}
   ) {
-    if (this.openRoutes.includes(ctx.request.parsedUrl.pathname ?? '')) {
+    if (this.openRoutes.some((r) => r.startsWith(ctx.request.parsedUrl.pathname ?? ''))) {
       return next()
     }
     await ctx.auth.authenticateUsing(options.guards, { loginRoute: this.redirectTo })
