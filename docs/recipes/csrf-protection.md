@@ -1,6 +1,62 @@
 # Cross-Site Request Forgery (CSRF) Protection
 
-You can add CSRF protection with AdonisJS Shield by adding a hidden input field `_csrf` with a CSRF token.
+First enable [https://docs.adonisjs.com/guides/security/securing-ssr-applications#csrf-protection](CSRF) in shield.
+
+## Method 1: Include X-XSRF-TOKEN in requests
+
+First set `enableXsrfCookie: true` in `config/shield.ts`.
+
+Enabling this option will ensure that the XSRF-TOKEN cookie is set on the client side.
+
+Next we need to override `fetch` globally on our window object (I know...) to include the header on every client request.
+
+You can do so with this hook:
+
+```tsx
+// useFetchWithXSRF.tsx
+import { useEffect } from 'react';
+
+export const useFetchWithXSRF = (): void => {
+  useEffect(() => {
+    const originalFetch: typeof fetch = window.fetch;
+
+    const fetchWithXSRF: typeof fetch = async (url, options = {}) => {
+      options.headers = options.headers instanceof Headers ? options.headers : new Headers(options.headers);
+
+      const requestUrl = new URL(url.toString(), window.location.origin);
+
+      if (requestUrl.origin === window.location.origin) {
+        if (options.method && options.method.toUpperCase() === 'POST') {
+          const cookies = document.cookie.split(';');
+          const xsrfToken = cookies.find(cookie => cookie.trim().startsWith('XSRF-TOKEN='));
+          if (xsrfToken) {
+            options.headers.append('X-XSRF-TOKEN', xsrfToken.split('=')[1]);
+          }
+        }
+      }
+
+      return originalFetch(url, options);
+    };
+
+    window.fetch = fetchWithXSRF;
+
+    return () => {
+      window.fetch = originalFetch;
+    };
+  }, []);
+};
+
+```
+
+Now CSRF should be enabled for POST requests.
+
+If you need to exclude some endpoints (for example API), see the [AdonisJS docs for exceptRoutes.](https://docs.adonisjs.com/guides/security/securing-ssr-applications#config-reference)
+
+
+## Method 2: Hidden input field
+
+You can also add CSRF protection with AdonisJS Shield by adding a hidden input field `_csrf` with a CSRF token.
+This might be a bit more cumbersome, since every form in your application needs to include the hidden field.
 
 To get it working with Remix, we can do the following:
 
