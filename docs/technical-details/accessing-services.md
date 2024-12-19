@@ -105,16 +105,15 @@ Here is an example of how it is now possible to access the `user_service` instan
 ```tsx
 // resources/remix_app/routes/_index.tsx
 
-import { ActionFunctionArgs, json } from '@remix-run/node'
-import { useLoaderData } from '@remix-run/react'
+import { ActionFunctionArgs, useLoaderData } from 'react-router'
 
 export const loader = async ({ context }: ActionFunctionArgs) => {
   const userService = await context.make('user_service')
   const user = await userService.getUser('jarle@example.com')
 
-  return json({
+  return {
     name: user.name,
-  })
+  }
 }
 
 export default function Page() {
@@ -151,15 +150,14 @@ When using this wrapper, we can now access the `userService` with regular import
 
 ```tsx
 import { userService } from '#services/index'
-import { json } from '@remix-run/node'
-import { useLoaderData } from '@remix-run/react'
+import { useLoaderData } from 'react-router'
 
 export const loader = async () => {
   const user = await userService.getUser('jarle@example.com')
 
-  return json({
+  return {
     name: user.name,
-  })
+  }
 }
 
 export default function Page() {
