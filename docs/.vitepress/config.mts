@@ -62,8 +62,8 @@ export default defineConfig({
     ],
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/jarle/remix-adonisjs' },
-      { icon: 'twitter', link: 'https://twitter.com/jarlemathiesen' }
+      { icon: 'github', link: 'https://github.com/jarle/remix-adonisjs/discussions' },
+      { icon: 'twitter', link: 'https://x.com/jarlemathiesen' },
     ]
   }
 })
