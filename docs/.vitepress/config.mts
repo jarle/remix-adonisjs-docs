@@ -28,7 +28,7 @@ export default defineConfig({
         text: 'Getting started',
         items: [
           { text: 'Quickstart', link: '/getting-started/quickstart' },
-          { text: 'Migrate a Remix application', link: '/getting-started/migrate-from-remix' },
+          { text: 'Migrate to React Router', link: '/getting-started/migrate-to-react-router' },
           { text: 'Migrate an AdonisJS application', link: '/getting-started/add-to-existing-adonisjs-project' },
           { text: 'Examples', link: '/getting-started/examples' }
         ],
@@ -63,7 +63,7 @@ export default defineConfig({
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/jarle/remix-adonisjs/discussions' },
-      { icon: 'twitter', link: 'https://x.com/jarlemathiesen' },
+      { icon: 'x', link: 'https://x.com/jarlemathiesen' },
     ]
   }
 })

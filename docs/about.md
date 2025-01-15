@@ -2,14 +2,14 @@
 
 ## What is remix-adonisjs?
 
-This is a batteries-included meta-framework for building typesafe full-stack applications with Remix and AdonisJS on node.js.
+This is a batteries-included meta-framework for building typesafe full-stack applications with React Router (previously Remix) and AdonisJS on node.js.
 It is maintained by [Jarle Mathiesen](https://mathiesen.dev)
 
 ## How does it work?
-It works by embedding your Remix application into your AdonisJS web server, supercharging your Remix loaders and actions.
+It works by embedding your React Router application into your AdonisJS web server, supercharging your React Router server loaders and actions.
 This gives you full runtime access to the powerful AdonisJS IoC container and HTTP context, unlocking all the features of the AdonisJS framework with deeply integrated authentication- and authorization controls.
 
-Here is a simple loader accessing the authenticated user and sending them an email from a remix loader using [@adonisjs/mail](https://docs.adonisjs.com/guides/mail):
+Here is a simple loader accessing the authenticated user and sending them an email from a React Router loader using [@adonisjs/mail](https://docs.adonisjs.com/guides/mail):
 ``` typescript
 // Note that we use the _context_ object in the loader.
 export const loader = async ({ context }: LoaderFunctionArgs) => {
@@ -33,7 +33,7 @@ export const loader = async ({ context }: LoaderFunctionArgs) => {
 ```
 
 ## Why does it exist?
-Remix is incredibly powerful for building React applications, but is not opinionated about how to build the backend for your application.
+React Router is incredibly powerful for building React applications, but is not opinionated about how to build the backend for your application.
 This means you have to pull in several external dependencies that may or may not work well togheter. 
 
 AdonisJS is an opinionated framework similar to Laravel and Ruby on Rails that has been around since 2016.

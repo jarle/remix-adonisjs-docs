@@ -112,11 +112,9 @@ import vine, { VineLiteral } from '@vinejs/vine'
 import type { SchemaTypes } from '@vinejs/vine/types'
 
 type FieldValidation = Record<string, SchemaTypes>
-type ValidationObject = Record<string, FieldValidation>
+type ValidationObject = Record<string, FieldValidation | {}>
 
-type ConstrainedObject<T extends FieldValidation> = {
-  [Key in keyof T]: T[Key]
-}
+type ConstrainedObject<T extends FieldValidation | {}> = T extends FieldValidation ? T : {}
 
 type ConstrainedValidation<T extends ValidationObject> = {
   [Key in keyof T]: ConstrainedObject<T[Key]>

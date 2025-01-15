@@ -8,7 +8,7 @@ First set `enableXsrfCookie: true` in `config/shield.ts`.
 
 Enabling this option will ensure that the XSRF-TOKEN cookie is set on the client side.
 
-Next we need to override `fetch` globally on our window object (I know...) to include the header on every client request.
+Next we need to override `fetch` globally on our window object to include the header on every client request.
 
 You can do so with this hook:
 

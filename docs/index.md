@@ -13,9 +13,9 @@ hero:
 
 features:
   - title: Fully integrated frameworks
-    details: We embed Remix inside AdonisJS, unlocking both the frontend magic of Remix and the robust backend ecosystem of AdonisJS
+    details: We embed React Router inside AdonisJS, unlocking both the frontend magic of React Router and the robust backend ecosystem of AdonisJS
   - title: Avoid framework churn
-    details: Both Remix and AdonisJS put great effort into API stability and following web standards.
+    details: Both React Router and AdonisJS put great effort into API stability and following web standards.
   - title: Modern DX with Vite
     details: We build on top of Vite for a modern developer experience
 ---
