@@ -122,9 +122,9 @@ We will keep our conversation history in a server-side variable called `history`
 let history: Message[] = []
 
 export const loader = () => {
-  return json({
+  return {
     history,
-  })
+  }
 }
 ```
 
@@ -154,7 +154,7 @@ export const action = async ({ context }: ActionFunctionArgs) => {
     })
   }
 
-  return null
+  return Response.json(null)
 }
 ```
 
@@ -163,7 +163,7 @@ Replace your `Page()` function with a form for creating completions with your ac
 
 ```tsx
 import type { Message } from '#services/openai_service'
-import { useFetcher, useLoaderData } from '@remix-run/react'
+import { useFetcher, useLoaderData } from 'react-router'
 import { useEffect, useRef } from 'react'
 
 export default function Page() {

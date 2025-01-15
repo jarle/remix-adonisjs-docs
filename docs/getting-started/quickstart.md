@@ -14,5 +14,5 @@ The project follows the conventional AdonisJS structure, with the Remix applicat
 A good next step could be to follow our guide on how to build a [login flow](/hands-on/building-a-login-flow.md) for your new application.
 
 For implementation details/reference, refer to the official documentation for the two frameworks:
-- [Remix documentation](https://remix.run/docs/)
+- [React router documentation](https://reactrouter.com/home)
 - [AdonisJS documentation](https://docs.adonisjs.com/)
