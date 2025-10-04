@@ -1,4 +1,4 @@
-# Building a login flow with remix-adonisjs
+# Building a login flow with react-adonisjs
 
 Building an application often requires that you let users create accounts and log in.
 This guide will show you how to:
@@ -8,7 +8,6 @@ This guide will show you how to:
 - Register new users
 - Log in existing users
 - Log out users
-
 
 ## Initial setup
 
@@ -32,8 +31,8 @@ Add this snippet anywhere in the `<head>` tag of your `root.tsx` component:
 />
 ```
 
-
 ## Setting up the database and @adonisjs/auth package
+
 We'll protect our application with the [adonisjs/auth](https://docs.adonisjs.com/guides/auth) package.
 
 You can add it with this command:
@@ -43,6 +42,7 @@ node ace add @adonisjs/auth --guard=session
 ```
 
 This created some new files for us as you can see in the output:
+
 ```
 DONE:    create config/auth.ts
 DONE:    update adonisrc.ts file
@@ -58,20 +58,21 @@ DONE:    update start/kernel.ts file
 The most important files are:
 
 A table migration that sets up our users table:
+
 ```ts
 // database/migrations/<timestamp>_create_users_table.ts
 export default class extends BaseSchema {
-  protected tableName = 'users'
+  protected tableName = "users"
 
   async up() {
     this.schema.createTable(this.tableName, (table) => {
-      table.increments('id').notNullable()
-      table.string('full_name').nullable()
-      table.string('email', 254).notNullable().unique()
-      table.string('password').notNullable()
+      table.increments("id").notNullable()
+      table.string("full_name").nullable()
+      table.string("email", 254).notNullable().unique()
+      table.string("password").notNullable()
 
-      table.timestamp('created_at').notNullable()
-      table.timestamp('updated_at').nullable()
+      table.timestamp("created_at").notNullable()
+      table.timestamp("updated_at").nullable()
     })
   }
 
@@ -81,13 +82,13 @@ export default class extends BaseSchema {
 }
 ```
 
-
 A user model that we use to interact with the table:
+
 ```ts
 // #app/models/User.ts
-const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
-  uids: ['email'],
-  passwordColumnName: 'password',
+const AuthFinder = withAuthFinder(() => hash.use("scrypt"), {
+  uids: ["email"],
+  passwordColumnName: "password",
 })
 
 export default class User extends compose(BaseModel, AuthFinder) {
@@ -111,12 +112,12 @@ export default class User extends compose(BaseModel, AuthFinder) {
 }
 ```
 
-
 A middleware that authenticate incoming requests for the endpoints we specify:
+
 ```tsx
 // #app/middleware/auth_middleware.ts
 export default class AuthMiddleware {
-  redirectTo = '/login'
+  redirectTo = "/login"
 
   async handle(
     ctx: HttpContext,
@@ -125,12 +126,13 @@ export default class AuthMiddleware {
       guards?: (keyof Authenticators)[]
     } = {}
   ) {
-    await ctx.auth.authenticateUsing(options.guards, { loginRoute: this.redirectTo })
+    await ctx.auth.authenticateUsing(options.guards, {
+      loginRoute: this.redirectTo,
+    })
     return next()
   }
 }
 ```
-
 
 Here `redirectTo` is the route that the user will be sent to if they are not logged in when accessing a protected route.
 
@@ -139,9 +141,9 @@ We need to modify this middleware so it doesn't do any checks for the `/login` p
 ```ts
 // #middleware/auth_middleware.ts
 export default class AuthMiddleware {
-  redirectTo = '/login'
+  redirectTo = "/login"
 
-  openRoutes = [this.redirectTo, '/register', "__manifest"]
+  openRoutes = [this.redirectTo, "/register", "__manifest"]
 
   async handle(
     ctx: HttpContext,
@@ -150,16 +152,23 @@ export default class AuthMiddleware {
       guards?: (keyof Authenticators)[]
     } = {}
   ) {
-    if (this.openRoutes.some((r) => (ctx.request.parsedUrl.pathname ?? '').startsWith(r))) {
+    if (
+      this.openRoutes.some((r) =>
+        (ctx.request.parsedUrl.pathname ?? "").startsWith(r)
+      )
+    ) {
       return next()
     }
-    await ctx.auth.authenticateUsing(options.guards, { loginRoute: this.redirectTo })
+    await ctx.auth.authenticateUsing(options.guards, {
+      loginRoute: this.redirectTo,
+    })
     return next()
   }
 }
 ```
 
 We should also create the user table in our database by running our new migration file:
+
 ```sh
 node ace migration:run
 ```
@@ -167,27 +176,29 @@ node ace migration:run
 ::: info
 You can always re-generate your database if you want to clear it of any data.
 The command for clearing your database is:
+
 ```sh
 node ace migration:fresh
 ```
+
 :::
 
 ## Applying auth middleware
 
-Time to apply the middleware and protect our routes! 
+Time to apply the middleware and protect our routes!
 
 Update `#start/routes.ts` and add the `auth_middleware` to the remix route handler.
 This will run the authentication on every remix route.
 
 ```ts
-import {middleware} from '#start/kernel'
+import { middleware } from "#start/kernel"
 router
-  .any('*', async ({ remixHandler }) => {
+  .any("*", async ({ remixHandler }) => {
     return remixHandler()
   })
   .use(
     middleware.auth({
-      guards: ['web'],
+      guards: ["web"],
     })
   )
 ```
@@ -201,11 +212,11 @@ Let's create the login route in React Router with this command:
 node ace remix:route --action --error-boundary login
 ```
 
-
 ## Building the auth pages
 
 Let's create a login form in `#resources/remix_app/routes/login.tsx` to get started with our routes.
 Replace your `Page()` function with this code then add `Link` and `Form` to the `import {...} from 'react-router'` list but leave everything else in the file as-is for now:
+
 ```tsx
 export default function Page() {
   return (
@@ -223,7 +234,8 @@ export default function Page() {
           </label>
           <button type="submit">Login</button>
           <p>
-            Don't have an account yet? <Link to={'/register'}>Click here to sign up</Link>
+            Don't have an account yet?{" "}
+            <Link to={"/register"}>Click here to sign up</Link>
           </p>
         </Form>
       </article>
@@ -232,14 +244,12 @@ export default function Page() {
 }
 ```
 
-
 We don't have a way to register users, so the login page isn't very useful yet.
 Let's create a new route using React Router so users can register, using a similar command as before:
 
 ```sh
 node ace remix:route --action --error-boundary register
 ```
-
 
 Add this simple form by replacing the `Page()` function in `#resources/remix_app/routes/login.tsx` and adding `Form` to the import line as above:
 
@@ -266,13 +276,13 @@ export default function Page() {
 }
 ```
 
-
 This is starting to look good!
 But wait, clicking the `Register` button doesn't do anything yet 🤔
 
 That means it's time to implement the logic for user registration.
 
-## Creating  and registering a user service
+## Creating and registering a user service
+
 To keep things tidy, we create a new service for handling users.
 
 ```
@@ -280,9 +290,10 @@ node ace make:service user_service
 ```
 
 Add this code to the service (`app/services/user_service.ts`):
+
 ```ts
-import User from '#models/user';
-import hash from '@adonisjs/core/services/hash';
+import User from "#models/user"
+import hash from "@adonisjs/core/services/hash"
 
 export default class UserService {
   async createUser(props: { email: string; password: string }) {
@@ -293,7 +304,7 @@ export default class UserService {
   }
 
   async getUser(email: string) {
-    return await User.findByOrFail('email', email)
+    return await User.findByOrFail("email", email)
   }
 
   async verifyPassword(user: User, password: string) {
@@ -301,7 +312,6 @@ export default class UserService {
   }
 }
 ```
-
 
 Now we need to make the service available to our `/register` route.
 The proper way to do that is to add the service to the application container.
@@ -311,8 +321,8 @@ Update the `#services/_index.ts` file to create a new instance of our service:
 ```ts
 // Register services that should be available in the container here
 export const ServiceProviders = {
-  hello_service: () => import('./hello_service.js'),
-  user_service: () => import( './user_service.js'),
+  hello_service: () => import("./hello_service.js"),
+  user_service: () => import("./user_service.js"),
 } satisfies Record<string, LazyService>
 ```
 
@@ -322,29 +332,35 @@ Let's use the service in our `/register` route by replacing the `action` functio
 
 ```ts
 // resources/remix_app/routes/register.tsx
-import { redirect, Form, useActionData, useLoaderData, isRouteErrorResponse, useRouteError } from 'react-router'
+import {
+  redirect,
+  Form,
+  useActionData,
+  useLoaderData,
+  isRouteErrorResponse,
+  useRouteError,
+} from "react-router"
 
 // ...
 
 export const action = async ({ context }: ActionFunctionArgs) => {
   const { http, make } = context
   // get email and password from form data
-  const { email, password } = http.request.only(['email', 'password'])
+  const { email, password } = http.request.only(["email", "password"])
 
   // get the UserService from the app container and create user
-  const userService = await make('user_service')
+  const userService = await make("user_service")
   const user = await userService.createUser({
     email,
     password,
   })
 
   // log in the user after successful registration
-  await http.auth.use('web').login(user)
+  await http.auth.use("web").login(user)
 
-  return redirect('/')
+  return redirect("/")
 }
 ```
-
 
 ## Registering a user
 
@@ -354,6 +370,7 @@ If you have followed all the steps, you should be redirected to the index page a
 Let's make an indicator so that we can see we are actually logged in.
 
 Let's update `_index.tsx` to have this loader, where we get the email of the currently authenticated user:
+
 ```tsx
 // resources/remix_app/routes/_index.tsx
 export const loader = async ({ context }: LoaderFunctionArgs) => {
@@ -366,6 +383,7 @@ export const loader = async ({ context }: LoaderFunctionArgs) => {
 ```
 
 And update the `_index.tsx` components to display the email by replacing the default Index():
+
 ```tsx
 // resources/remix_app/routes/_index.tsx
 export default function Index() {
@@ -392,18 +410,23 @@ Add an action to your index route to make it possible to log out, adding `type A
 
 ```tsx
 // resources/remix_app/routes/_index.tsx
-import { json, type ActionFunctionArgs, type LoaderFunctionArgs, type MetaFunction } from 'react-router'
-import { useLoaderData, redirect } from 'react-router'
+import {
+  json,
+  type ActionFunctionArgs,
+  type LoaderFunctionArgs,
+  type MetaFunction,
+} from "react-router"
+import { useLoaderData, redirect } from "react-router"
 
 // ...
 
 export const action = async ({ context }: ActionFunctionArgs) => {
   const { http } = context
-  const { intent } = http.request.only(['intent'])
+  const { intent } = http.request.only(["intent"])
 
-  if (intent === 'log_out') {
-    await http.auth.use('web').logout()
-    throw redirect('/login')
+  if (intent === "log_out") {
+    await http.auth.use("web").logout()
+    throw redirect("/login")
   }
   return null
 }
@@ -413,7 +436,7 @@ And add a button that triggers the action, remembering to add `Form` to the impo
 
 ```tsx
 // resources/remix_app/routes/_index.tsx
-import { useLoaderData, redirect, Form  } from 'react-router'
+import { useLoaderData, redirect, Form } from "react-router"
 
 // ...
 
@@ -424,8 +447,8 @@ export default function Index() {
     <div className="container">
       <p>Logged in as {email}</p>
       <Form method="POST">
-        <input type="hidden" name="intent" value={'log_out'} />
-        <button type={'submit'}>Log out</button>
+        <input type="hidden" name="intent" value={"log_out"} />
+        <button type={"submit"}>Log out</button>
       </Form>
     </div>
   )
@@ -441,16 +464,24 @@ Let's add the following action to the login page, and add redirect to our import
 
 ```tsx
 // resources/remix_app/routes/login
-import { Link, Form, redirect, useActionData, useLoaderData, isRouteErrorResponse, useRouteError } from 'react-router'
+import {
+  Link,
+  Form,
+  redirect,
+  useActionData,
+  useLoaderData,react-adonisjs
+  isRouteErrorResponse,
+  useRouteError,
+} from "react-router"
 
 // ...
 
 export const action = async ({ context }: ActionFunctionArgs) => {
   const { http, make } = context
   // get the form email and password
-  const { email, password } = http.request.only(['email', 'password'])
+  const { email, password } = http.request.only(["email", "password"])
 
-  const userService = await make('user_service')
+  const userService = await make("user_service")
   // look up the user by email
   const user = await userService.getUser(email)
 
@@ -458,12 +489,11 @@ export const action = async ({ context }: ActionFunctionArgs) => {
   await userService.verifyPassword(user, password)
 
   // log in user since they passed the check
-  await http.auth.use('web').login(user)
+  await http.auth.use("web").login(user)
 
-  return redirect('/')
+  return redirect("/")
 }
 ```
-
 
 Now we should have a complete flow for registering new users and for logging users in and out!
 
@@ -473,6 +503,7 @@ We have covered a lot of the parts that makes `remix-adonisjs` great, and we hav
 There is a lot to learn, and I will continue making these guides to make the meta framework more accessible and familiar to work with.
 
 Here are some challenges you could try implementing on your own in the meantime:
+
 - Error handling when wrong credentials are supplied
 - Error handling when registering duplicate users
 - Enforcing password security rules
