@@ -1,4 +1,4 @@
-# Examples of using remix-adonisjs
+# Examples of using react-adonisjs
 
 Unfortunately none yet.
 

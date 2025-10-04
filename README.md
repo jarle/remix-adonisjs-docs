@@ -1,29 +1,32 @@
-# remix-adonisjs-docs
+# react-adonisjs-docs
 
-Documentation for the [remix-adonisjs](https://github.com/jarle/remix-adonisjs) library.
+Documentation for the [react-adonisjs](https://github.com/jarle/react-adonisjs) library.
 
-This repository contains the VitePress documentation site for remix-adonisjs, a batteries-included meta-framework for building typesafe full-stack applications with React Router (previously Remix) and AdonisJS.
+This repository contains the VitePress documentation site for react-adonisjs, a batteries-included meta-framework for building typesafe full-stack applications with React Router (previously Remix) and AdonisJS.
 
 ## Development
 
 Install dependencies:
+
 ```bash
 npm install
 ```
 
 Start the development server:
+
 ```bash
 npm run dev
 ```
 
 Build for production:
+
 ```bash
 npm run build
 ```
 
 ## Deployment
 
-The documentation is deployed to [https://matstack.dev/remix-adonisjs](https://matstack.dev/remix-adonisjs).
+The documentation is deployed to [https://matstack.dev/react-adonisjs](https://matstack.dev/react-adonisjs).
 
 ## Contributing
 

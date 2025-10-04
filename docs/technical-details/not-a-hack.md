@@ -1,8 +1,8 @@
-# Why remix-adonisjs is not a hack
+# Why react-adonisjs is not a hack
 
 When people first hear about embedding React Router into AdonisJS, they sometimes wonder if it's a "hack" or an unsupported workaround. This is a valid concern - you want to build on solid foundations, not fragile workarounds that will break with every update.
 
-The good news is that **remix-adonisjs is built on official, documented React Router APIs**. It's not a hack - it's React Router framework mode with a custom server, which is exactly what React Router was designed to support.
+The good news is that **react-adonisjs is built on official, documented React Router APIs**. It's not a hack - it's React Router framework mode with a custom server, which is exactly what React Router was designed to support.
 
 ## What is React Router Framework Mode?
 
@@ -23,10 +23,10 @@ React Router explicitly supports custom server implementations. The official doc
 - Static handler for SSR data loading
 - Build output that can be imported into any Node.js server
 
-This is exactly what remix-adonisjs uses. We import the compiled React Router application and handle requests through AdonisJS's HTTP layer:
+This is exactly what react-adonisjs uses. We import the compiled React Router application and handle requests through AdonisJS's HTTP layer:
 
 ```typescript
-router.any('*', async ({ remixHandler }) => {
+router.any("*", async ({ remixHandler }) => {
   return remixHandler()
 })
 ```
@@ -56,7 +56,7 @@ Using React Router with a custom server isn't new or experimental:
 - **Cloudflare Workers** - Popular deployment target with custom adapter
 - **Deno** - Custom server implementation for Deno runtime
 
-remix-adonisjs follows the exact same pattern, just with AdonisJS as the underlying server. The only difference is that AdonisJS brings more batteries included than a minimal Express setup.
+react-adonisjs follows the exact same pattern, just with AdonisJS as the underlying server. The only difference is that AdonisJS brings more batteries included than a minimal Express setup.
 
 ## The Integration Points
 
@@ -70,7 +70,7 @@ These are all using public, stable APIs. There's no patching, monkey-patching, o
 
 ## Stability and Support
 
-Because remix-adonisjs uses official APIs:
+Because react-adonisjs uses official APIs:
 
 - **Updates are straightforward** - React Router updates work as long as the public APIs remain stable
 - **No lock-in** - You can eject to a plain React Router + Node.js server if needed
@@ -79,6 +79,6 @@ Because remix-adonisjs uses official APIs:
 
 ## Conclusion
 
-remix-adonisjs isn't a hack - it's a thoughtful integration of two mature frameworks using their official extension points. React Router was designed to support custom servers, and AdonisJS was designed to be a comprehensive backend framework. Bringing them together gives you the best of both worlds without compromises.
+react-adonisjs isn't a hack - it's a thoughtful integration of two mature frameworks using their official extension points. React Router was designed to support custom servers, and AdonisJS was designed to be a comprehensive backend framework. Bringing them together gives you the best of both worlds without compromises.
 
 If you're building a full-stack application and want both a great frontend framework and a complete backend framework, this is a legitimate, supported approach.

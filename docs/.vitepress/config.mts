@@ -2,21 +2,21 @@ import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "remix-adonisjs",
-  description: "Documentation for @matstack/remix-adonisjs",
+  title: "react-adonisjs",
+  description: "Documentation for @matstack/react-adonisjs",
   sitemap: {
-    hostname: 'https://matstack.dev/remix-adonisjs/'
+    hostname: 'https://matstack.dev/react-adonisjs/'
   },
-  base: '/remix-adonisjs/',
+  base: '/react-adonisjs/',
   head: [
-    ['link', { rel: 'icon', href: '/remix-adonisjs/favicon.png' }],
-    ['link', { rel: 'canonical', href: 'https://matstack.dev/remix-adonisjs/' }],
+    ['link', { rel: 'icon', href: '/react-adonisjs/favicon.png' }],
+    ['link', { rel: 'canonical', href: 'https://matstack.dev/react-adonisjs/' }],
   ],
   cleanUrls: true,
   lastUpdated: true,
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
-    siteTitle: '@matstack/remix-adonisjs',
+    siteTitle: '@matstack/react-adonisjs',
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Documentation', link: '/getting-started/quickstart' },
@@ -64,7 +64,7 @@ export default defineConfig({
     ],
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/jarle/remix-adonisjs/discussions' },
+      { icon: 'github', link: 'https://github.com/jarle/react-adonisjs/discussions' },
       { icon: 'x', link: 'https://x.com/jarlemathiesen' },
     ]
   }
