@@ -31,6 +31,7 @@ export default defineConfig({
           { text: 'Quickstart', link: '/getting-started/quickstart' },
           { text: 'Migrate to React Router', link: '/getting-started/migrate-to-react-router' },
           { text: 'Migrate an AdonisJS application', link: '/getting-started/add-to-existing-adonisjs-project' },
+          { text: 'Migrate from remix-adonisjs', link: '/getting-started/migrate-from-remix-adonisjs' },
           { text: 'Examples', link: '/getting-started/examples' }
         ],
         collapsed: false
