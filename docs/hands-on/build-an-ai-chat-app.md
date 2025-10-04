@@ -235,6 +235,6 @@ Here are some suggestions for what to do next:
 
 ## Further reading
 
-- [React Router Single: Clearing Inputs After Form Submissions](https://www.youtube.com/watch?v=bMLej7bg5Zo)
-- [React Router Single: Optimistic UI](https://www.youtube.com/watch?v=EdB_nj01C80)
+- [Remix Single: Clearing Inputs After Form Submissions](https://www.youtube.com/watch?v=bMLej7bg5Zo)
+- [Remix Single: Optimistic UI](https://www.youtube.com/watch?v=EdB_nj01C80)
 - [Documentation for the OpenAI Node.js library](https://github.com/openai/openai-node#readme)
