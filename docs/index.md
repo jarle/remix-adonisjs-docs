@@ -1,6 +1,33 @@
 ---
 # https://vitepress.dev/reference/default-theme-home-page
 layout: home
+title: react-adonisjs - Full-stack React Router Framework with AdonisJS
+description: Build modern, type-safe full-stack React applications with React Router and AdonisJS. Batteries-included meta-framework for Node.js with authentication, ORM, validation, and more.
+head:
+  - - meta
+    - name: keywords
+      content: react router, adonisjs, full-stack react, react framework, typescript, node.js, meta-framework, react router framework, adonisjs react, server-side rendering, SSR
+  - - meta
+    - property: og:title
+      content: react-adonisjs - Full-stack React Router Framework with AdonisJS
+  - - meta
+    - property: og:description
+      content: Build modern, type-safe full-stack React applications with React Router and AdonisJS. Batteries-included meta-framework for Node.js.
+  - - meta
+    - property: og:type
+      content: website
+  - - meta
+    - property: og:url
+      content: https://matstack.dev/react-adonisjs/
+  - - meta
+    - name: twitter:card
+      content: summary_large_image
+  - - meta
+    - name: twitter:title
+      content: react-adonisjs - Full-stack React Router Framework
+  - - meta
+    - name: twitter:description
+      content: Build modern, type-safe full-stack React applications with React Router and AdonisJS.
 
 hero:
   name: "react-adonisjs"
