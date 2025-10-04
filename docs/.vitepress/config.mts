@@ -20,7 +20,8 @@ export default defineConfig({
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Documentation', link: '/getting-started/quickstart' },
-      { text: 'About', link: '/about' }
+      { text: 'About', link: '/about' },
+      { text: 'Rebrand', link: '/about-rebrand' }
     ],
 
     sidebar: [
