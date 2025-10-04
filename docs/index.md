@@ -5,7 +5,7 @@ layout: home
 hero:
   name: "react-adonisjs"
   text: "Better Web Apps in Record Time"
-  tagline: "react-adonisjs is a Node.js meta-framework that combines React Router and AdonisJS for a best-in-class application stack"
+  tagline: "react-adonisjs (formerly remix-adonisjs) is a Node.js meta-framework that combines React Router and AdonisJS for a best-in-class application stack"
   actions:
     - theme: brand
       text: Get started
