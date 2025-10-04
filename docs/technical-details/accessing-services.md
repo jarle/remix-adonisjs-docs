@@ -1,4 +1,4 @@
-# Accessing services from Remix actions and loaders
+# Accessing services from React Router actions and loaders
 
 Say for example that we want to add a UserService to our application.
 
@@ -24,10 +24,10 @@ export default class UserService {
 }
 ```
 
-It is tempting to include this service directly in our loaders with `import`, but that would mean pulling AdonisJS code into our Remix code.
-**As a general rule we should avoid including AdonisJS code directly in our Remix code to keep the separation clean.**
+It is tempting to include this service directly in our loaders with `import`, but that would mean pulling AdonisJS code into our frontend code.
+**As a general rule we should avoid including AdonisJS code directly in our frontend code to keep the separation clean.**
 
-We will therefore register our services in the AdonisJS container and access them only at runtime from our Remix loaders.
+We will therefore register our services in the AdonisJS container and access them only at runtime from our React Router loaders.
 If you are unfamiliar with the AdonisJS IoC container, you can think of it as a key-value map that is shared across the application at runtime.
 This makes it possible to insert stuff such as singleton services and access them across your application.
 
@@ -98,7 +98,7 @@ declare module '@adonisjs/core/types' {
 
 ```
 
-This should give you type safe access to your services from the container in your remix application.
+This should give you type safe access to your services from the container in your React Router application.
 
 Here is an example of how it is now possible to access the `user_service` instance:
 
@@ -143,7 +143,7 @@ export { userService }
 
 
 ::: warning
-Make sure that that you use `import type` for your service in this file, so that Remix doesn't bundle your service code when compiling.
+Make sure that that you use `import type` for your service in this file, so that React Router doesn't bundle your service code when compiling.
 :::
 
 When using this wrapper, we can now access the `userService` with regular imports:
@@ -168,7 +168,7 @@ export default function Page() {
 ```
 
 
-We can see the resulting compiled remix `server.js` code:
+We can see the resulting compiled React Router `server.js` code:
 ```js
 // build/remix/server/server.js
 import app from "@adonisjs/core/services/app";

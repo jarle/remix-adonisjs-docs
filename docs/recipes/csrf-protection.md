@@ -58,10 +58,10 @@ If you need to exclude some endpoints (for example API), see the [AdonisJS docs 
 You can also add CSRF protection with AdonisJS Shield by adding a hidden input field `_csrf` with a CSRF token.
 This might be a bit more cumbersome, since every form in your application needs to include the hidden field.
 
-To get it working with Remix, we can do the following:
+To get it working with React Router, we can do the following:
 
 1. Get the CSRF token value from the AdonisJS HTTP context
-1. Pass the CSRF value to our Page component through a Remix loader
+1. Pass the CSRF value to our Page component through a React Router loader
 1. Include the CSRF value in a hidden field in our forms
 
 Here is a very small example of this setup, with the `action` function omitted:

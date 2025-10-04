@@ -111,7 +111,7 @@ Read up on the [OpenAI API pricing](https://openai.com/pricing) if you are not f
 
 ## Create the chat route
 
-Create a new Remix route `/ai` with an action:
+Create a new React Router route `/ai` with an action:
 ```
 node ace remix:route --action ai
 ```
@@ -221,7 +221,7 @@ If you look away from this logic, the loop is very simple:
 1. Display the user message immediately in the chat dialog box
 1. Append the user message to our `history` variable on the server
 1. Get the assistant response from OpenAI and add it to the `history` variable
-1. Return from the action, which will make Remix call the loader and display the updated history. Since we are already displaying the user message, the new assistant message is the only thing that changes on the page.
+1. Return from the action, which will make React Router call the loader and display the updated history. Since we are already displaying the user message, the new assistant message is the only thing that changes on the page.
 1. The loops starts again once the user submits a new message
 
 
@@ -235,6 +235,6 @@ Here are some suggestions for what to do next:
 
 ## Further reading
 
-- [Remix Single: Clearing Inputs After Form Submissions](https://www.youtube.com/watch?v=bMLej7bg5Zo)
-- [Remix Single: Optimistic UI](https://www.youtube.com/watch?v=EdB_nj01C80)
+- [React Router Single: Clearing Inputs After Form Submissions](https://www.youtube.com/watch?v=bMLej7bg5Zo)
+- [React Router Single: Optimistic UI](https://www.youtube.com/watch?v=EdB_nj01C80)
 - [Documentation for the OpenAI Node.js library](https://github.com/openai/openai-node#readme)
