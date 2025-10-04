@@ -55,6 +55,7 @@ export default defineConfig({
       {
         text: 'Technical details',
         items: [
+          { text: 'Why this is not a hack', link: '/technical-details/not-a-hack' },
           { text: 'Accessing services from React Router', link: '/technical-details/accessing-services' },
         ],
         collapsed: false

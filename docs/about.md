@@ -9,6 +9,10 @@ It is maintained by [Jarle Mathiesen](https://mathiesen.dev)
 It works by embedding your React Router application into your AdonisJS web server, supercharging your React Router server loaders and actions.
 This gives you full runtime access to the powerful AdonisJS IoC container and HTTP context, unlocking all the features of the AdonisJS framework with deeply integrated authentication- and authorization controls.
 
+::: info
+This integration uses official React Router APIs for custom server implementations - it's not a hack! [Learn more about how this works](/technical-details/not-a-hack).
+:::
+
 Here is a simple loader accessing the authenticated user and sending them an email from a React Router loader using [@adonisjs/mail](https://docs.adonisjs.com/guides/mail):
 ``` typescript
 // Note that we use the _context_ object in the loader.
