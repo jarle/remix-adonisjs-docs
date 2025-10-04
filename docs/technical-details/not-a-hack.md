@@ -26,12 +26,12 @@ React Router explicitly supports custom server implementations. The official doc
 This is exactly what react-adonisjs uses. We import the compiled React Router application and handle requests through AdonisJS's HTTP layer:
 
 ```typescript
-router.any("*", async ({ remixHandler }) => {
-  return remixHandler()
+router.any("*", async ({ reactRouterHandler }) => {
+  return reactRouterHandler()
 })
 ```
 
-The `remixHandler` is a thin wrapper around React Router's `createRequestHandler()` that bridges AdonisJS's HTTP context with React Router's request/response handling.
+The `reactRouterHandler` is a thin wrapper around React Router's `createRequestHandler()` that bridges AdonisJS's HTTP context with React Router's request/response handling.
 
 ## Why Use a Custom Server?
 
@@ -62,7 +62,7 @@ react-adonisjs follows the exact same pattern, just with AdonisJS as the underly
 
 The integration between React Router and AdonisJS happens at three clear boundaries:
 
-1. **Build Process** - React Router compiles to `build/remix/server.js`, which AdonisJS imports
+1. **Build Process** - React Router compiles to `build/react-router/server.js`, which AdonisJS imports
 2. **Request Handling** - AdonisJS forwards requests to React Router's request handler
 3. **Context Injection** - AdonisJS HTTP context is passed to loaders/actions via the `context` parameter
 

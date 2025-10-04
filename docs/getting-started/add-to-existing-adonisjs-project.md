@@ -15,7 +15,7 @@ node ace configure @matstack/react-adonisjs
 ```
 
 ::: info
-Make sure that the `vite_provider` is placed above the `remix_provider` in `adonisrc.ts`
+Make sure that the `vite_provider` is placed above the `react_router_provider` in `adonisrc.ts`
 :::
 
 Add this to your `adonisrc.ts` file:
@@ -43,8 +43,8 @@ Update your `tsconfig.json` compiler options to include these lines:
 Add a route handler to `start/routes.ts` that invokes the React Router request handler for all HTTP verbs:
 
 ```typescript
-router.any("*", async ({ remixHandler }) => {
-  return remixHandler()
+router.any("*", async ({ reactRouterHandler }) => {
+  return reactRouterHandler()
 })
 ```
 

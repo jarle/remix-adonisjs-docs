@@ -11,10 +11,10 @@ Here is a screenshot of what we will build:
 First initialize a new react-adonisjs project:
 
 ```sh
-npm init adonisjs@latest -- -K="github:jarle/remix-starter-kit" --auth-guard=access_tokens --db=sqlite ai-tutorial
+npm init adonisjs@latest -- -K="github:jarle/react-router-starter-kit" --auth-guard=access_tokens --db=sqlite ai-tutorial
 ```
 
-Before we do anything else, let's add some css to `resources/remix_app/root.tsx` so our application looks nice.
+Before we do anything else, let's add some css to `resources/react_app/root.tsx` so our application looks nice.
 Add this snippet anywhere in the `<head>` tag of your `root.tsx` component:
 
 ```html
@@ -116,7 +116,7 @@ Read up on the [OpenAI API pricing](https://openai.com/pricing) if you are not f
 Create a new React Router route `/ai` with an action:
 
 ```
-node ace remix:route --action ai
+node ace react:route --action ai
 ```
 
 We will keep our conversation history in a server-side variable called `history` placed at the top of our route, and make the history available to the route component by exposing it through a loader:

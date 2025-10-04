@@ -154,7 +154,7 @@ providers: [
 // After
 providers: [
   // ...
-  () => import("@matstack/react-adonisjs/remix_provider"),
+  () => import("@matstack/react-adonisjs/react_router_provider"),
 ]
 ```
 

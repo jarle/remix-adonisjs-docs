@@ -13,7 +13,6 @@ For example we could add a delete button like so:
 </Form>
 ```
 
-
 Deletion is a destructive action, so we want to make sure that it is the correct intent for the POST request.
 
 In the action function we could check the intent like this:
@@ -21,10 +20,10 @@ In the action function we could check the intent like this:
 ```tsx
 export const action = async ({ context }: ActionFunctionArgs) => {
   const { http, make } = context
-  const { intent } = http.request.only(['intent'])
+  const { intent } = http.request.only(["intent"])
 
-  if (intent === 'delete') {
-	// delete logic
+  if (intent === "delete") {
+    // delete logic
   } else {
     throw new Response(`Unsupported intent ${intent}`, { status: 400 })
   }
@@ -42,27 +41,27 @@ We want to be able to handle different intents with different payloads on the sa
 We can use the field `intent` to find out what validation we should use: our `delete` schema might be different from other intent schemas, so we keep them separate.
 
 The code for combining multiple intents look like the following:
-``` tsx
 
+```tsx
 const searchValidation = {
-  intent: vine.literal('search'),
+  intent: vine.literal("search"),
   searchQuery: vine.string().trim().minLength(1),
 }
 
 const addValidation = {
-  intent: vine.literal('add'),
+  intent: vine.literal("add"),
   guid: vine.string().trim().minLength(1),
 }
 
 const intent = vine.group([
-  vine.group.if((data) => data.intent === 'search', searchValidation),
-  vine.group.if((data) => data.intent === 'add', addValidation),
+  vine.group.if((data) => data.intent === "search", searchValidation),
+  vine.group.if((data) => data.intent === "add", addValidation),
 ])
 
 const actionValidation = vine.compile(
   vine
     .object({
-      intent: vine.enum(['search', 'add']),
+      intent: vine.enum(["search", "add"]),
     })
     .merge(intent)
 )
@@ -78,15 +77,15 @@ export const action = async ({ context }: ActionFunctionArgs) => {
   const { http, make } = context
   const r = await http.request.validateUsing(actionValidation)
 
-  if (r.intent === 'search') {
-    const service = await make('search_service')
+  if (r.intent === "search") {
+    const service = await make("search_service")
 
     const searchResults = await service.search(r.searchQuery)
     return json({ searchResults })
-  } else if (r.intent === 'add') {
-    const service = await make('episode_service')
+  } else if (r.intent === "add") {
+    const service = await make("episode_service")
     const episode = await service.addByGuid({
-      guid: r.guid
+      guid: r.guid,
     })
     return redirect(`/episode/${episode.endpoint}`)
   } else {
@@ -99,22 +98,23 @@ export const action = async ({ context }: ActionFunctionArgs) => {
 When we switch on the `intent` field, we get strongly typed scopes to work in.
 This is called a discriminatory union, which basically means that we are using the `intent` field as a "discriminator" to understand which of the payloads we have received, and Typescript has full support for this.
 
-
 ### Extracting a helper function for intent validation
 
 We had to write a lot of validation code that could become repetitive if we have many actions.
 Luckily this is a repeating pattern when we have a standard `intent` field.
 
 Here is a helper function that could be useful if you want to use this pattern:
+
 ```ts
-// resources/remix_app/utils/intent_validation.ts
-import vine, { VineLiteral } from '@vinejs/vine'
-import type { SchemaTypes } from '@vinejs/vine/types'
+// resources/react_app/utils/intent_validation.ts
+import vine, { VineLiteral } from "@vinejs/vine"
+import type { SchemaTypes } from "@vinejs/vine/types"
 
 type FieldValidation = Record<string, SchemaTypes>
 type ValidationObject = Record<string, FieldValidation | {}>
 
-type ConstrainedObject<T extends FieldValidation | {}> = T extends FieldValidation ? T : {}
+type ConstrainedObject<T extends FieldValidation | {}> =
+  T extends FieldValidation ? T : {}
 
 type ConstrainedValidation<T extends ValidationObject> = {
   [Key in keyof T]: ConstrainedObject<T[Key]>
@@ -135,7 +135,7 @@ export function intentValidation<T extends ValidationObject>(
     (
       Object.entries(validations) as [
         keyof ValidationWithIntent,
-        ValidationWithIntent[keyof ValidationWithIntent],
+        ValidationWithIntent[keyof ValidationWithIntent]
       ][]
     ).map(([key, entry]) => vine.group.if((data) => data.intent === key, entry))
   )

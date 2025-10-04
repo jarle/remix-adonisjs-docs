@@ -31,7 +31,7 @@ We use dynamic imports so that services are lazily instantiated - this gives us 
 
 The application container is injected into the React Router context, making it available in loaders and actions.
 
-The [remix-starter-kit](https://github.com/jarle/remix-starter-kit) includes a simple loader that shows how we access the service from the container:
+The [react-router-starter-kit](https://github.com/jarle/react-router-starter-kit) includes a simple loader that shows how we access the service from the container:
 
 ```ts
 export const loader = async ({ context }: LoaderFunctionArgs) => {

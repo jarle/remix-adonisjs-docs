@@ -10,7 +10,7 @@ We make it a very simple class for demonstration purposes:
 
 ```typescript
 // #services/user_service.ts
-import User from '#models/user';
+import User from "#models/user"
 
 export default class UserService {
   /**
@@ -19,7 +19,7 @@ export default class UserService {
    * @returns Instance of the given User model
    */
   async getUser(email: string) {
-    return await User.findByOrFail('email', email)
+    return await User.findByOrFail("email", email)
   }
 }
 ```
@@ -50,12 +50,12 @@ Modify the new service file to include your services:
 ```typescript
 // Register services that should be available in the container here
 export const ServiceProviders = {
-  user_service: () => import('#services/user_service'),
+  user_service: () => import("#services/user_service"),
 } satisfies Record<string, LazyService>
 ```
 
-
 Then run the following command, and press `y` when prompted to register the provider in `.adonisrc.ts`:
+
 ```
 node ace make:provider service_provider
 ```
@@ -64,8 +64,8 @@ Then add these files to your `#providers` folder:
 
 ```typescript
 // #providers/service_provider.ts
-import { ServiceProviders } from '#services/service_providers'
-import { ApplicationService } from '@adonisjs/core/types'
+import { ServiceProviders } from "#services/service_providers"
+import { ApplicationService } from "@adonisjs/core/types"
 
 export default class ServiceProvider {
   constructor(protected app: ApplicationService) {}
@@ -79,23 +79,21 @@ export default class ServiceProvider {
     })
   }
 }
-
 ```
 
 ```typescript
 // #providers/service_types.d.ts
-import { ServiceProviders } from "#services/_index";
+import { ServiceProviders } from "#services/_index"
 
 type ProvidedServices = {
   [K in keyof typeof ServiceProviders]: InstanceType<
-    Awaited<ReturnType<(typeof ServiceProviders)[K]>>['default']
+    Awaited<ReturnType<(typeof ServiceProviders)[K]>>["default"]
   >
 }
 
-declare module '@adonisjs/core/types' {
+declare module "@adonisjs/core/types" {
   export interface ContainerBindings extends ProvidedServices {}
 }
-
 ```
 
 This should give you type safe access to your services from the container in your React Router application.
@@ -103,13 +101,13 @@ This should give you type safe access to your services from the container in you
 Here is an example of how it is now possible to access the `user_service` instance:
 
 ```tsx
-// resources/remix_app/routes/_index.tsx
+// resources/react_app/routes/_index.tsx
 
-import { ActionFunctionArgs, useLoaderData } from 'react-router'
+import { ActionFunctionArgs, useLoaderData } from "react-router"
 
 export const loader = async ({ context }: ActionFunctionArgs) => {
-  const userService = await context.make('user_service')
-  const user = await userService.getUser('jarle@example.com')
+  const userService = await context.make("user_service")
+  const user = await userService.getUser("jarle@example.com")
 
   return {
     name: user.name,
@@ -120,7 +118,6 @@ export default function Page() {
   const { name } = useLoaderData<typeof loader>()
   return <p>Hello, {name}</p>
 }
-
 ```
 
 ### Bonus: Using `import` instead of `make`
@@ -129,18 +126,17 @@ We can add a simple wrapper for getting our service from the container:
 
 ```typescript
 // #services/index.ts
-import app from '@adonisjs/core/services/app'
-import type UserService from './user_service'
+import app from "@adonisjs/core/services/app"
+import type UserService from "./user_service"
 
 let userService: UserService
 
 await app.booted(async () => {
-  userService = await app.container.make('user_service')
+  userService = await app.container.make("user_service")
 })
 
 export { userService }
 ```
-
 
 ::: warning
 Make sure that that you use `import type` for your service in this file, so that React Router doesn't bundle your service code when compiling.
@@ -149,11 +145,11 @@ Make sure that that you use `import type` for your service in this file, so that
 When using this wrapper, we can now access the `userService` with regular imports:
 
 ```tsx
-import { userService } from '#services/index'
-import { useLoaderData } from 'react-router'
+import { userService } from "#services/index"
+import { useLoaderData } from "react-router"
 
 export const loader = async () => {
-  const user = await userService.getUser('jarle@example.com')
+  const user = await userService.getUser("jarle@example.com")
 
   return {
     name: user.name,
@@ -164,38 +160,39 @@ export default function Page() {
   const { name } = useLoaderData<typeof loader>()
   return <div>Hello, {name}</div>
 }
-
 ```
 
-
 We can see the resulting compiled React Router `server.js` code:
+
 ```js
-// build/remix/server/server.js
-import app from "@adonisjs/core/services/app";
+// build/react-router/server/server.js
+import app from "@adonisjs/core/services/app"
 
-const route0 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
-  __proto__: null,
-  Layout,
-  default: App
-}, Symbol.toStringTag, { value: "Module" }));
-let userService;
+const route0 = /* @__PURE__ */ Object.freeze(
+  /* @__PURE__ */ Object.defineProperty(
+    {
+      __proto__: null,
+      Layout,
+      default: App,
+    },
+    Symbol.toStringTag,
+    { value: "Module" }
+  )
+)
+let userService
 app.booted(async () => {
-  userService = await app.container.make("user_service");
-});
+  userService = await app.container.make("user_service")
+})
 const loader = async () => {
-  const user = await userService.getUser("jarle@example.com");
+  const user = await userService.getUser("jarle@example.com")
   return json({
-    name: user.name
-  });
-};
-function Page() {
-  const { name } = useLoaderData();
-  return /* @__PURE__ */ jsxs("div", { children: [
-    "Hello, ",
-    name
-  ] });
+    name: user.name,
+  })
 }
-
+function Page() {
+  const { name } = useLoaderData()
+  return /* @__PURE__ */ jsxs("div", { children: ["Hello, ", name] })
+}
 ```
 
 Notice how the `userService` is being instantiated from the container, with no code from the service itself being included in the bundle.
