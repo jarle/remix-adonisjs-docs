@@ -45,7 +45,7 @@ export default defineConfig({
       {
         text: 'Recipes',
         items: [
-          { text: 'Using services in Remix', link: '/recipes/provide-services' },
+          { text: 'Using services in React Router', link: '/recipes/provide-services' },
           { text: 'Validate intent in action functions', link: '/recipes/validate-action-intent' },
           { text: 'Adding CSRF protection', link: '/recipes/csrf-protection' },
           { text: 'Deploying your application', link: '/recipes/deployment' },
@@ -55,7 +55,7 @@ export default defineConfig({
       {
         text: 'Technical details',
         items: [
-          { text: 'Accessing services from Remix', link: '/technical-details/accessing-services' },
+          { text: 'Accessing services from React Router', link: '/technical-details/accessing-services' },
         ],
         collapsed: false
       },

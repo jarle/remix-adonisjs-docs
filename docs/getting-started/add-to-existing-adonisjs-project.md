@@ -1,4 +1,4 @@
-# Adding Remix to an existing AdonisJS 6 project
+# Adding React Router to an existing AdonisJS 6 project
 
 Requirements:
 - AdonisJS 6
@@ -36,7 +36,7 @@ Update your `tsconfig.json` compiler options to include these lines:
   }
 ```
 
-Add a route handler to `start/routes.ts` that invokes the Remix request handler for all HTTP verbs:
+Add a route handler to `start/routes.ts` that invokes the React Router request handler for all HTTP verbs:
 ``` typescript
 router.any('*', async ({ remixHandler }) => {
   return remixHandler()

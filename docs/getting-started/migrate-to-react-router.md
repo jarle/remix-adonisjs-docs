@@ -4,7 +4,7 @@
 
 The first step is to [migrate your Remix project to React Router](https://reactrouter.com/upgrading/remix) if you haven't already.
 
-The most important part is moving the configuration of remix out to the `react-router.config.ts` file:
+The most important part is moving the configuration of React Router out to the `react-router.config.ts` file:
 
 ```ts
 import type { Config } from '@react-router/dev/config'

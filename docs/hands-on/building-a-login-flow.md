@@ -195,7 +195,7 @@ router
 If you try to access your app now, you should be redirected to the `/login` endpoint.
 
 This redirect will give you a `404 Not Found` error because we haven't made a login route yet.
-Let's create the login route in Remix with this command:
+Let's create the login route in React Router with this command:
 
 ```sh
 node ace remix:route --action --error-boundary login
@@ -234,7 +234,7 @@ export default function Page() {
 
 
 We don't have a way to register users, so the login page isn't very useful yet.
-Let's create a new route using Remix so users can register, using a similar command as before:
+Let's create a new route using React Router so users can register, using a similar command as before:
 
 ```sh
 node ace remix:route --action --error-boundary register

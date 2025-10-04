@@ -1,6 +1,6 @@
-# Using services in remix
+# Using services in React Router
 
-Services that should be from from Remix are registered in `#services/_index.ts`:
+Services that should be from from React Router are registered in `#services/_index.ts`:
 
 ```ts
 export const ServiceProviders = {
@@ -10,7 +10,7 @@ export const ServiceProviders = {
 ```
 
 Any services declared here will be [a singleton](https://docs.adonisjs.com/guides/concepts/dependency-injection#singletons) accessible in the container with the provided key.
-This makes the services available in our remix application, as it will use the container for accessing backend services.
+This makes the services available in our React Router application, as it will use the container for accessing backend services.
 
 You can register anything as a service: the return value of your lambda will decide what is resolved when we look up the key.
 
@@ -29,7 +29,7 @@ We use dynamic imports so that services are lazily instantiated - this gives us 
 
 ## Accessing services
 
-The application container is injected into the Remix context, making it available in loaders and actions.
+The application container is injected into the React Router context, making it available in loaders and actions.
 
 The [remix-starter-kit](https://github.com/jarle/remix-starter-kit) includes a simple loader that shows how we access the service from the container:
 
