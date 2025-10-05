@@ -173,7 +173,7 @@ Replace your `Page()` function with this code and leave everything else in the f
 import { Form, Link } from 'react-router'
 export default function Page() {
   return (
-    <div className="container">
+    <div className="max-w-lg mx-auto">
       <article>
         <h1>Log in</h1>
         <Form method="post">
@@ -214,7 +214,7 @@ Add this simple form by replacing the `Page()` function in `#resources/react_app
 import { Form } from 'react-router'
 export default function Page() {
   return (
-    <div className="container">
+    <div className="max-w-lg mx-auto">
       <h1>Register</h1>
       <article>
         <Form method="post">
@@ -386,7 +386,7 @@ import { Form } from "react-router"
 
 export default function Home({ loaderData }: Route.ComponentProps) {
   return (
-    <div className="container">
+    <div className="max-w-lg mx-auto">
       <p>Logged in as {loaderData.email}</p>
       <Form method="POST">
         <input type="hidden" name="intent" value={"log_out"} />
