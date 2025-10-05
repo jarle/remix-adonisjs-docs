@@ -11,7 +11,7 @@ Here is a screenshot of what we will build:
 First initialize a new react-adonisjs project:
 
 ```sh
-npm init adonisjs@latest -- -K="github:jarle/react-router-starter-kit" --auth-guard=access_tokens --db=sqlite ai-tutorial
+npm init adonisjs@latest -- -K="github:jarle/react-router-starter-kit" --auth-guard=session --db=sqlite ai-tutorial
 ```
 
 Before we do anything else, let's add some css to `resources/react_app/root.tsx` so our application looks nice.

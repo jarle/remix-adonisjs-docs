@@ -14,8 +14,9 @@ This guide will show you how to:
 Let's start by initiating our project with the following commands:
 
 ```sh
-npm init adonisjs@latest -- -K="github:jarle/react-router-starter-kit" --auth-guard=access_tokens --db=sqlite login-page-tutorial
+npm init adonisjs@latest -- -K="github:jarle/react-router-starter-kit" --auth-guard=session --db=sqlite login-page-tutorial
 cd login-page-tutorial
+npx react-router typegen
 node ace configure @adonisjs/lucid
 ```
 
@@ -30,6 +31,9 @@ Add this snippet anywhere in the `<head>` tag of your `root.tsx` component:
   href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
 />
 ```
+
+Now you can start the application by running `npm run dev`.
+It should become available on http://localhost:5173
 
 ## Setting up the database and @adonisjs/auth package
 
@@ -112,62 +116,7 @@ export default class User extends compose(BaseModel, AuthFinder) {
 }
 ```
 
-A middleware that authenticate incoming requests for the endpoints we specify:
-
-```tsx
-// #app/middleware/auth_middleware.ts
-export default class AuthMiddleware {
-  redirectTo = "/login"
-
-  async handle(
-    ctx: HttpContext,
-    next: NextFn,
-    options: {
-      guards?: (keyof Authenticators)[]
-    } = {}
-  ) {
-    await ctx.auth.authenticateUsing(options.guards, {
-      loginRoute: this.redirectTo,
-    })
-    return next()
-  }
-}
-```
-
-Here `redirectTo` is the route that the user will be sent to if they are not logged in when accessing a protected route.
-
-We need to modify this middleware so it doesn't do any checks for the `/login` page, by defining some open routes and skipping the check for those routes:
-
-```ts
-// #middleware/auth_middleware.ts
-export default class AuthMiddleware {
-  redirectTo = "/login"
-
-  openRoutes = [this.redirectTo, "/register", "__manifest"]
-
-  async handle(
-    ctx: HttpContext,
-    next: NextFn,
-    options: {
-      guards?: (keyof Authenticators)[]
-    } = {}
-  ) {
-    if (
-      this.openRoutes.some((r) =>
-        (ctx.request.parsedUrl.pathname ?? "").startsWith(r)
-      )
-    ) {
-      return next()
-    }
-    await ctx.auth.authenticateUsing(options.guards, {
-      loginRoute: this.redirectTo,
-    })
-    return next()
-  }
-}
-```
-
-We should also create the user table in our database by running our new migration file:
+We should create the user table in our database by running our new migration file:
 
 ```sh
 node ace migration:run
@@ -185,25 +134,23 @@ node ace migration:fresh
 
 ## Applying auth middleware
 
-Time to apply the middleware and protect our routes!
+Time to add [React Router middleware](https://reactrouter.com/how-to/middleware) and protect our routes.
 
-Update `#start/routes.ts` and add the `auth_middleware` to the React Router route handler.
-This will run the authentication on every React Router route.
+Update `_index.tsx` and add the following authentication middleware function:
 
-```ts
-import { middleware } from "#start/kernel"
-router
-  .any("*", async ({ reactRouterHandler }) => {
-    return reactRouterHandler()
-  })
-  .use(
-    middleware.auth({
-      guards: ["web"],
-    })
-  )
+```tsx
+export const middleware: Route.MiddlewareFunction[] = [
+  async ({ context }) => {
+    const { http } = context
+    const authenticated = await http.auth.checkUsing(['web'])
+    if (!authenticated) {
+      throw redirect("/login")
+    }
+  }
+];
 ```
 
-If you try to access your app now, you should be redirected to the `/login` endpoint.
+If you try to access your app on http://localhost:3333 now, you should be redirected to the `/login` page.
 
 This redirect will give you a `404 Not Found` error because we haven't made a login route yet.
 Let's create the login route in React Router with this command:
@@ -212,12 +159,18 @@ Let's create the login route in React Router with this command:
 node ace react:route --action --error-boundary login
 ```
 
+:::note
+We're applying middleware to a single route in this tutorial for simplicity.
+In production applications, you can use [pathless routes](https://reactrouter.com/how-to/file-route-conventions#nested-layouts-without-nested-urls) to apply middleware to entire route hierarchies, protecting multiple pages with a single middleware definition.
+:::
+
 ## Building the auth pages
 
 Let's create a login form in `#resources/react_app/routes/login.tsx` to get started with our routes.
-Replace your `Page()` function with this code then add `Link` and `Form` to the `import {...} from 'react-router'` list but leave everything else in the file as-is for now:
+Replace your `Page()` function with this code and leave everything else in the file as-is for now:
 
 ```tsx
+import { Form, Link } from 'react-router'
 export default function Page() {
   return (
     <div className="container">
@@ -248,12 +201,17 @@ We don't have a way to register users, so the login page isn't very useful yet.
 Let's create a new route using React Router so users can register, using a similar command as before:
 
 ```sh
-node ace react:route --action --error-boundary register
+node ace react:route -a -e register
 ```
+
+:::info
+The `-a` and `-e` flags are shorthand for `--action` and `--error-boundary`.
+:::
 
 Add this simple form by replacing the `Page()` function in `#resources/react_app/routes/login.tsx` and adding `Form` to the import line as above:
 
 ```tsx
+import { Form } from 'react-router'
 export default function Page() {
   return (
     <div className="container">
@@ -289,7 +247,7 @@ To keep things tidy, we create a new service for handling users.
 node ace make:service user_service
 ```
 
-Add this code to the service (`app/services/user_service.ts`):
+Replace the code in `app/services/user_service.ts` with this:
 
 ```ts
 import User from "#models/user"
@@ -314,16 +272,20 @@ export default class UserService {
 ```
 
 Now we need to make the service available to our `/register` route.
-The proper way to do that is to add the service to the application container.
+The cleanest way to do that is to add the service to the application container.
 
 Update the `#services/_index.ts` file to create a new instance of our service:
 
 ```ts
+import type { LazyService } from '#providers/service_provider';
+
 // Register services that should be available in the container here
 export const ServiceProviders = {
-  hello_service: () => import("./hello_service.js"),
+  env: () => import('#start/env'),
+  hello_service: () => import('./hello_service.js'),
   user_service: () => import("./user_service.js"),
 } satisfies Record<string, LazyService>
+
 ```
 
 Now we have one instance of the `UserService` that can be accessed anywhere in our app.
@@ -332,18 +294,9 @@ Let's use the service in our `/register` route by replacing the `action` functio
 
 ```ts
 // resources/react_app/routes/register.tsx
-import {
-  redirect,
-  Form,
-  useActionData,
-  useLoaderData,
-  isRouteErrorResponse,
-  useRouteError,
-} from "react-router"
+import { redirect } from "react-router"
 
-// ...
-
-export const action = async ({ context }: ActionFunctionArgs) => {
+export const action = async ({ context }: Route.ActionArgs) => {
   const { http, make } = context
   // get email and password from form data
   const { email, password } = http.request.only(["email", "password"])
@@ -362,9 +315,15 @@ export const action = async ({ context }: ActionFunctionArgs) => {
 }
 ```
 
+:::warning
+Do not import the service directly in your route files (e.g., `import UserService from '#services/user_service'`).
+This would cause the React Router bundler to include backend code in your client bundle, which can lead to unexpected side effects and errors.
+Always access services through the container using `make()`.
+:::
+
 ## Registering a user
 
-You can now try to run your app and register a new user.
+You can now try to run your app and register a new user from http://localhost:3333/register.
 If you have followed all the steps, you should be redirected to the index page after registering.
 
 Let's make an indicator so that we can see we are actually logged in.
@@ -373,7 +332,7 @@ Let's update `_index.tsx` to have this loader, where we get the email of the cur
 
 ```tsx
 // resources/react_app/routes/_index.tsx
-export const loader = async ({ context }: LoaderFunctionArgs) => {
+export const loader = async ({ context }: Route.LoaderArgs) => {
   const email = context.http.auth.user?.email
 
   return {
@@ -382,14 +341,12 @@ export const loader = async ({ context }: LoaderFunctionArgs) => {
 }
 ```
 
-And update the `_index.tsx` components to display the email by replacing the default Index():
+And update the `_index.tsx` components to display the email by replacing the default export `Home()`:
 
 ```tsx
 // resources/react_app/routes/_index.tsx
-export default function Index() {
-  const { email } = useLoaderData<typeof loader>()
-
-  return <p>Logged in as {email}</p>
+export default function Home({ loaderData }: Route.ComponentProps) {
+  return <p>Logged in as {loaderData.email}</p>
 }
 ```
 
@@ -406,21 +363,10 @@ We have some momentum now, so let's keep going.
 A natural next step is to be able to log out.
 Let's add support for that to our index page:
 
-Add an action to your index route to make it possible to log out, adding `type ActionFunctionArgs` and `redirect` to the relevent import lists:
 
 ```tsx
 // resources/react_app/routes/_index.tsx
-import {
-  json,
-  type ActionFunctionArgs,
-  type LoaderFunctionArgs,
-  type MetaFunction,
-} from "react-router"
-import { useLoaderData, redirect } from "react-router"
-
-// ...
-
-export const action = async ({ context }: ActionFunctionArgs) => {
+export const action = async ({ context }: Route.ActionArgs) => {
   const { http } = context
   const { intent } = http.request.only(["intent"])
 
@@ -432,20 +378,16 @@ export const action = async ({ context }: ActionFunctionArgs) => {
 }
 ```
 
-And add a button that triggers the action, remembering to add `Form` to the import list:
+And add a button that triggers the action by using a React Router Form with intent `log_out`:
 
 ```tsx
 // resources/react_app/routes/_index.tsx
-import { useLoaderData, redirect, Form } from "react-router"
+import { Form } from "react-router"
 
-// ...
-
-export default function Index() {
-  const { email } = useLoaderData<typeof loader>()
-
+export default function Home({ loaderData }: Route.ComponentProps) {
   return (
     <div className="container">
-      <p>Logged in as {email}</p>
+      <p>Logged in as {loaderData.email}</p>
       <Form method="POST">
         <input type="hidden" name="intent" value={"log_out"} />
         <button type={"submit"}>Log out</button>
@@ -456,39 +398,24 @@ export default function Index() {
 ```
 
 Now it should be possible to log out clicking the `Log out` button on the front page.
-We are redirected to the login page after logging out, but we haven't finished that page yet: we need to add login functionality.
+We are redirected to the login page after logging out, but we haven't finished that page yet: **we need to add login functionality.**
 
 ## Logging in
 
 Let's add the following action to the login page, and add redirect to our imports:
 
 ```tsx
-// resources/react_app/routes/login
-import {
-  Link,
-  Form,
-  redirect,
-  useActionData,
-  useLoaderData,react-adonisjs
-  isRouteErrorResponse,
-  useRouteError,
-} from "react-router"
+// resources/react_app/routes/login.tsx
+import { redirect } from 'react-router'
 
-// ...
-
-export const action = async ({ context }: ActionFunctionArgs) => {
+export const action = async ({ context }: Route.ActionArgs) => {
   const { http, make } = context
-  // get the form email and password
   const { email, password } = http.request.only(["email", "password"])
 
   const userService = await make("user_service")
-  // look up the user by email
   const user = await userService.getUser(email)
 
-  // check if the password is correct
   await userService.verifyPassword(user, password)
-
-  // log in user since they passed the check
   await http.auth.use("web").login(user)
 
   return redirect("/")
