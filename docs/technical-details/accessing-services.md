@@ -103,9 +103,9 @@ Here is an example of how it is now possible to access the `user_service` instan
 ```tsx
 // resources/react_app/routes/_index.tsx
 
-import { ActionFunctionArgs, useLoaderData } from "react-router"
+import { Route } from "./+types/_index.js"
 
-export const loader = async ({ context }: ActionFunctionArgs) => {
+export const loader = async ({ context }: Route.ActionArgs) => {
   const userService = await context.make("user_service")
   const user = await userService.getUser("jarle@example.com")
 
@@ -114,9 +114,8 @@ export const loader = async ({ context }: ActionFunctionArgs) => {
   }
 }
 
-export default function Page() {
-  const { name } = useLoaderData<typeof loader>()
-  return <p>Hello, {name}</p>
+export default function Page({ loaderData }: Route.ComponentProps) {
+  return <p>Hello, {loaderData.name}</p>
 }
 ```
 
@@ -146,7 +145,6 @@ When using this wrapper, we can now access the `userService` with regular import
 
 ```tsx
 import { userService } from "#services/index"
-import { useLoaderData } from "react-router"
 
 export const loader = async () => {
   const user = await userService.getUser("jarle@example.com")
@@ -156,9 +154,8 @@ export const loader = async () => {
   }
 }
 
-export default function Page() {
-  const { name } = useLoaderData<typeof loader>()
-  return <div>Hello, {name}</div>
+export default function Page({ loaderData }: Route.ComponentProps) {
+  return <div>Hello, {loaderData.name}</div>
 }
 ```
 
@@ -189,9 +186,8 @@ const loader = async () => {
     name: user.name,
   })
 }
-function Page() {
-  const { name } = useLoaderData()
-  return /* @__PURE__ */ jsxs("div", { children: ["Hello, ", name] })
+function Page({ loaderData }) {
+  return /* @__PURE__ */ jsxs("div", { children: ["Hello, ", loaderData.name] })
 }
 ```
 

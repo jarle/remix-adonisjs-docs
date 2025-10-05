@@ -165,11 +165,10 @@ Replace your `Page()` function with a form for creating completions with your ac
 
 ```tsx
 import type { Message } from "#services/openai_service"
-import { useFetcher, useLoaderData } from "react-router"
+import { useFetcher } from "react-router"
 import { useEffect, useRef } from "react"
 
-export default function Page() {
-  const loaderData = useLoaderData<typeof loader>()
+export default function Page({ loaderData }: Route.ComponentProps) {
   const fetcher = useFetcher()
 
   let isMessaging =

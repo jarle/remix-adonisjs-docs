@@ -67,14 +67,14 @@ To get it working with React Router, we can do the following:
 Here is a very small example of this setup, with the `action` function omitted:
 
 ``` tsx
-export const loader = ({ context }: LoaderFunctionArgs) => {
+export const loader = ({ context }: Route.LoaderArgs) => {
   return {
     csrf: context.http.request.csrfToken
   }
 }
 
-export default function Page() {
-  const { csrf } = useLoaderData<typeof loader>()
+export default function Page({ loaderData }: Route.ComponentProps) {
+  const { csrf } = loaderData
 
   return (
     <div className="container">
