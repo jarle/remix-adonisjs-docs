@@ -12,6 +12,9 @@ export default defineConfig({
     ['link', { rel: 'icon', href: '/react-adonisjs/favicon.png' }],
     ['link', { rel: 'canonical', href: 'https://matstack.dev/react-adonisjs/' }],
   ],
+  ignoreDeadLinks: [
+    /^https?:\/\/localhost/
+  ],
   cleanUrls: true,
   lastUpdated: true,
   themeConfig: {
