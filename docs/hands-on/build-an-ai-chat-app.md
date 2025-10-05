@@ -131,13 +131,15 @@ export const loader = () => {
 }
 ```
 
+:::info
 This is not best practice since the variable is cleared on server restarts, but it works for our little demo.
 Ideally we would have a database or some storage layer to keep our chat history in.
+:::
 
 Access your service from the route action:
 
 ```ts
-export const action = async ({ context }: ActionFunctionArgs) => {
+export const action = async ({ context }: Route.ActionArgs) => {
   const { http, make } = context
 
   const { prompt } = http.request.only(["prompt"])
